@@ -54,15 +54,20 @@ export class LoggerInterceptor implements NestInterceptor {
       err = error.message;
     }
 
+    let user = 'Anonymous';
+    if (request.user) {
+      user = JSON.stringify(request.user);
+    }
+
     // 记录日志
     Logger.log(
       `Request [${method}][${
-        request.hostname
+        request.connection.remoteAddress
       }][${url}][${during}] Params(Body):${JSON.stringify(
         body,
       )}; Params(Query):${JSON.stringify(
         query,
-      )}; BizMeta:${bizMeta}; Error:${err}`,
+      )}; BizMeta:${bizMeta};User:${user}; Error:${err}`,
     );
   }
 }

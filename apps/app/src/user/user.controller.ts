@@ -25,8 +25,8 @@ export class UserController {
 
   @Get('test')
   @BizLog({ name: '授权模块', desc: '测试方法' })
-  @Captcha()
-  @Public()
+  // @Captcha()
+  // @Public()
   async test(@User() user: AuthUserInfo) {
     // await this.userService.create({
     //   name: 'zf',
