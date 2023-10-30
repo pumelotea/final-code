@@ -20,7 +20,7 @@ export class CaptchaService {
       .set(`/Captcha/${id}`, res.text, 'EX', 5 * 60);
 
     res.text = '';
-
+    res.data = res.data.replaceAll('"', "'");
     return {
       id,
       ...res,
@@ -36,6 +36,7 @@ export class CaptchaService {
       .set(`/Captcha/${id}`, res.text, 'EX', 5 * 60);
     //写入redis存储
     res.text = '';
+    res.data = res.data.replaceAll('"', "'");
     return {
       id,
       ...res,
