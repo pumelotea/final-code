@@ -31,7 +31,7 @@ export class UserService extends BaseService<User> {
     return token;
   }
 
-  protected model(): Prisma.UserDelegate {
+  protected get model() {
     return this.prisma.user;
   }
 }

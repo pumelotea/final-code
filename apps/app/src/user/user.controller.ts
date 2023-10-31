@@ -36,6 +36,14 @@ export class UserController {
     // await this.redisService.getClient().set('aaa', '123', 'EX', 10);
 
     // console.log(await this.redisService.getClient().get('aaa'));
-    return R.success(await this.userService.findPage(1, 2));
+    return R.success(
+      await this.userService.findPage(
+        {},
+        {
+          pageNo: 1,
+          pageSize: 10,
+        },
+      ),
+    );
   }
 }
