@@ -4214,11 +4214,6 @@ nestjs-ioredis@^0.1.8:
   resolved "https://registry.npmmirror.com/nestjs-ioredis/-/nestjs-ioredis-0.1.8.tgz#75949c973c95edf1e6602e24f179a49e7fda8f44"
   integrity sha512-F6LYpgmsCumzBPRto+xVvCBbOa/Cr/Ir5dXUHQTtwqiKnIaexBDtp7honfZPodpGRtAblH+IQPJ+ZcAXW2aywg==
 
-nestjs-prisma-pagination@^1.0.23:
-  version "1.0.23"
-  resolved "https://registry.npmmirror.com/nestjs-prisma-pagination/-/nestjs-prisma-pagination-1.0.23.tgz#25efbf23c69759ce57266aaa4a57ee845b28dafb"
-  integrity sha512-/cBfSsKJCAU6e37I3oN1YrWFQ8TJGjGA0fTWTVFkR+hdgXkNZXeTQqsMIOX7smVT3Vgg+6xM2kMctDt+YG1Ybw==
-
 nestjs-prisma@^0.22.0:
   version "0.22.0"
   resolved "https://registry.npmmirror.com/nestjs-prisma/-/nestjs-prisma-0.22.0.tgz#322b7163eeac203101f0ed01d3131774874652eb"

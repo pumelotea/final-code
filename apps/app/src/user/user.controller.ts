@@ -26,16 +26,16 @@ export class UserController {
   @Get('test')
   @BizLog({ name: '授权模块', desc: '测试方法' })
   // @Captcha()
-  // @Public()
+  @Public()
   async test(@User() user: AuthUserInfo) {
-    // await this.userService.create({
-    //   name: 'zf',
-    //   username: 'zzzz',
-    //   password: '2222',
-    // });
+    await this.userService.create({
+      name: 'zf',
+      username: 'zzzz',
+      password: '2222',
+    });
     // await this.redisService.getClient().set('aaa', '123', 'EX', 10);
 
     // console.log(await this.redisService.getClient().get('aaa'));
-    return R.success(await this.userService.findPage(1, 10, { id: 1 }));
+    return R.success(await this.userService.findPage(1, 2));
   }
 }

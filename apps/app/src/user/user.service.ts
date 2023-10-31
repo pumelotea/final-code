@@ -3,7 +3,7 @@ import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ServiceException } from '@happykit/common/error';
 import { PrismaService } from 'nestjs-prisma';
-import { BaseService } from '@happykit/common/service/base-service';
+import { BaseService } from '@happykit/common/base/base.service';
 import { User, Prisma } from '@prisma/client';
 
 @Injectable()

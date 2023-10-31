@@ -7,12 +7,16 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
-import { BIZ_LOG_KEY } from '@happykit/common/decorator/log.decorator';
+import { BIZ_LOG_KEY, BizMeta } from '@happykit/common/decorator/log.decorator';
 import { catchError, tap, throwError } from 'rxjs';
+import { PrismaService } from 'nestjs-prisma';
 
 @Injectable()
 export class LoggerInterceptor implements NestInterceptor {
-  constructor(private readonly reflector: Reflector) {}
+  constructor(
+    private readonly reflector: Reflector,
+    private readonly prisma: PrismaService,
+  ) {}
   async intercept(context: ExecutionContext, next: CallHandler) {
     // console.log('LoggerInterceptor');
 
@@ -35,7 +39,7 @@ export class LoggerInterceptor implements NestInterceptor {
       );
   }
 
-  processLog(
+  async processLog(
     context: ExecutionContext,
     startTime: number,
     request: any,
@@ -43,7 +47,10 @@ export class LoggerInterceptor implements NestInterceptor {
   ) {
     const { query, url, method, body } = request;
     const during = `${Date.now() - startTime}ms`;
-    const bizLogMeta = this.reflector.get(BIZ_LOG_KEY, context.getHandler());
+    const bizLogMeta = this.reflector.get<BizMeta>(
+      BIZ_LOG_KEY,
+      context.getHandler(),
+    );
 
     let bizMeta = 'Undefined';
     if (bizLogMeta) {
@@ -69,6 +76,22 @@ export class LoggerInterceptor implements NestInterceptor {
         query,
       )}; BizMeta:${bizMeta};User:${user}; Error:${err}`,
     );
+
+    if (bizLogMeta) {
+      const data = {
+        method,
+        path: url,
+        module: bizLogMeta.name,
+        methodName: context.getHandler().name,
+        desc: bizLogMeta.desc,
+        user: `${user}`,
+        clientId: request.user?.clientId || 'NONE',
+        during,
+        startTime: startTime,
+        errorMessage: error?.message,
+      };
+      await this.prisma.bizLog.create({ data });
+    }
   }
 }
 

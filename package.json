@@ -33,7 +33,6 @@
     "nest-winston": "^1.9.4",
     "nestjs-ioredis": "^0.1.8",
     "nestjs-prisma": "^0.22.0",
-    "nestjs-prisma-pagination": "^1.0.23",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "svg-captcha": "^1.4.0",

@@ -52,3 +52,15 @@ export default {
     storage: 'MINIO', // LOCAL MINIO
   },
 };
+
+// const handler = {
+//   apply: function(target, thisArg, argumentsList) {
+//     console.log(`正在调用函数：${target.name}`);
+//     return target.apply(thisArg, argumentsList);
+//   }
+// };
+// function sayHello(name) {
+//   console.log(`Hello, ${name}!`);
+// }
+// const proxy = new Proxy(sayHello, handler);
+// proxy("John"); // 输出：正在调用函数：sayHello  Hello, John!
