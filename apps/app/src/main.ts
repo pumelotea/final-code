@@ -39,7 +39,7 @@ async function bootstrap() {
 
   //swagger
   const config = new DocumentBuilder()
-    .setTitle('Final Code API')
+    .setTitle('APP API')
     .setDescription('The Final Code API Docs')
     .setVersion('1.0')
     .build();
