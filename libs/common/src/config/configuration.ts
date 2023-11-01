@@ -8,6 +8,17 @@ import * as winston from 'winston';
 import 'winston-daily-rotate-file';
 import { FileModule } from '@happykit/common/file/file.module';
 import { FileModuleOptions } from '@happykit/common/file/file.module-definition';
+import { NestFactory } from '@nestjs/core';
+import { WinstonModule } from 'nest-winston';
+import { createLogger } from 'winston';
+import {
+  HttpExceptionFilter,
+  PrismaExceptionFilter,
+  ServiceException,
+} from '@happykit/common/error';
+import { Logger, ValidationPipe } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { Module } from '@nestjs/core/injector/module';
 
 /**
  * JWT 模块
@@ -122,18 +133,16 @@ const logFormat = winston.format.printf(
   },
 );
 
-const labelFormat = winston.format.label({ label: 'Application' });
 const timeFormat = winston.format.timestamp({
   format: 'YYYY-MM-DD HH:mm:ss',
 });
 
-
-export function createLoggerOptions(prefix:string){
+export function createLoggerOptions(prefix: string) {
   return {
     transports: [
       new winston.transports.Console({
         format: winston.format.combine(
-          labelFormat,
+          winston.format.label({ label: prefix }),
           timeFormat,
           logFormatColorful,
         ),
@@ -146,7 +155,11 @@ export function createLoggerOptions(prefix:string){
         maxSize: '20m',
         maxFiles: '14d', // 保留日志文件的最大天数，此处表示自动删除超过 14 天的日志文件。
         // 记录时添加时间戳信息
-        format: winston.format.combine(labelFormat, timeFormat, logFormat),
+        format: winston.format.combine(
+          winston.format.label({ label: prefix }),
+          timeFormat,
+          logFormat,
+        ),
       }),
       new winston.transports.DailyRotateFile({
         level: 'error',
@@ -157,8 +170,71 @@ export function createLoggerOptions(prefix:string){
         maxSize: '20m',
         maxFiles: '14d', // 保留日志文件的最大天数，此处表示自动删除超过 14 天的日志文件。
         // 记录时添加时间戳信息
-        format: winston.format.combine(labelFormat, timeFormat, logFormat),
+        format: winston.format.combine(
+          winston.format.label({ label: prefix }),
+          timeFormat,
+          logFormat,
+        ),
       }),
     ],
+  };
+}
+
+/**
+ * 创建引导程序
+ * @param serviceName
+ * @param module
+ */
+export function createBootstrap(serviceName: string, module: any) {
+  return async () => {
+    const application = await NestFactory.create(module, {
+      logger: WinstonModule.createLogger({
+        instance: createLogger({ ...createLoggerOptions('App') }),
+      }),
+    });
+    //全局异常处理
+    application.useGlobalFilters(
+      new HttpExceptionFilter(),
+      new PrismaExceptionFilter(),
+    );
+    //跨域
+    application.enableCors();
+    //校验
+    application.useGlobalPipes(
+      new ValidationPipe({
+        transform: true,
+        exceptionFactory: (errors) => {
+          //重写错误返回
+          const err = errors[0];
+          const constraints =
+            err.constraints![Object.keys(err.constraints!)[0]];
+          return new ServiceException(`${constraints}`);
+        },
+      }),
+    );
+
+    const configService = application.get(ConfigService);
+
+    //swagger
+    const config = new DocumentBuilder()
+      .setTitle(`${serviceName} API`)
+      .setDescription(`${serviceName} Docs`)
+      .setVersion('1.0')
+      .build();
+    const document = SwaggerModule.createDocument(application, config);
+    SwaggerModule.setup('api', application, document);
+
+    await application.listen(configService.get<number>('server.port')!, () => {
+      Logger.log(
+        `API Served On http://127.0.0.1:${configService.get<number>(
+          'server.port',
+        )!}`,
+      );
+      Logger.log(
+        `API Docs On http://127.0.0.1:${configService.get<number>(
+          'server.port',
+        )!}/api`,
+      );
+    });
   };
 }

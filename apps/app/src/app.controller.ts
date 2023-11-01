@@ -13,6 +13,6 @@ export class AppController {
   @Get()
   @Public()
   index() {
-    return R.success(`App Application Run Mode ${process.env}`);
+    return R.success(`App Application Run Mode ${process.env.mode}`);
   }
 }
