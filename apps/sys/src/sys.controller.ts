@@ -12,6 +12,6 @@ export class SysController {
   @Get()
   @Public()
   index() {
-    return R.success('Application Online');
+    return R.success(`Sys Application Run Mode [${process.env.mode}]`);
   }
 }

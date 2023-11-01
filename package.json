@@ -6,15 +6,14 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
-    "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
-    "start": "nest start",
+    "build:app": "nest build app",
+    "build:sys": "nest build sys",
     "start:app:dev": "cross-env mode=local nest start app --watch",
     "start:sys:dev": "cross-env mode=local nest start sys --watch",
-    "start:debug": "nest start --debug --watch",
     "start:app:prod": "mode=prod node dist/apps/app/main",
     "start:sys:prod": "mode=prod node dist/apps/sys/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\""
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

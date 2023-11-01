@@ -2,7 +2,7 @@ import { join } from 'path';
 
 export default {
   server: {
-    port: 3000,
+    port: 3001,
   },
   jwt: {
     secret: 'xxxxxxxxxxxxxx', // fs.readFileSync('xxxxx.key')
