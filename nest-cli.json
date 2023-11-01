@@ -16,7 +16,14 @@
       "entryFile": "main",
       "sourceRoot": "apps/app/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/app/tsconfig.app.json"
+        "tsConfigPath": "apps/app/tsconfig.app.json",
+        "plugins": [{
+          "name": "@nestjs/swagger",
+          "options": {
+            "classValidatorShim": true,
+            "introspectComments": true
+          }
+        }]
       }
     },
     "sys": {

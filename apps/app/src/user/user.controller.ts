@@ -8,8 +8,10 @@ import { User } from '@happykit/common/decorator/user.decorator';
 import { BizLog } from '@happykit/common/decorator/log.decorator';
 import { Captcha } from '@happykit/common/decorator/captcha.decorator';
 import { Public } from '@happykit/common/decorator/public.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('user')
+@ApiTags('用户')
 export class UserController {
   constructor(
     private readonly userService: UserService,

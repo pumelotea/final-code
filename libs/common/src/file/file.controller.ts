@@ -19,7 +19,9 @@ import { CommonFileService } from '@happykit/common/file/file.module-definition'
 import { Readable as ReadableStream } from 'node:stream';
 import { ConfigService } from '@nestjs/config';
 import { BizLog } from '@happykit/common/decorator/log.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('通用文件')
 @Controller('file')
 export class FileController {
   private fileService: CommonFileService;
@@ -38,6 +40,11 @@ export class FileController {
     }
   }
 
+  /**
+   * 文件上传
+   * @param file 文件
+   * @param bucket 存储桶
+   */
   @Post('/upload/:bucket')
   @UseInterceptors(FileInterceptor('file'))
   @BizLog({ name: '文件', desc: '文件上传' })
@@ -53,6 +60,12 @@ export class FileController {
     return R.success(await this.fileService.upload(file, bucket));
   }
 
+  /**
+   * 文件获取
+   * @param bucket
+   * @param filename
+   * @param token
+   */
   @Get('/access/:bucket/:filename')
   @BizLog({ name: '文件', desc: '文件预览' })
   async view(
