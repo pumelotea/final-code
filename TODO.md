@@ -13,13 +13,13 @@
 - [x] 统一日志
 - [x] 最好通过注解实现:业务日志入库待实现
   - 分error、all
-- [ ] API文档 swagger
+- [x] API文档 swagger
 - [x] 整合Redis 
   - https://www.npmjs.com/package/@songkeys/nestjs-redis 
   - https://github.com/songkeys/nestjs-redis/blob/HEAD/docs/latest/redis.md
 - [x] 验证码，支持配置的path拦截，然后进行校验；优化方向全局注入，局部拦截
 - [x] 优化配置获取方式:最好通过注入方式
-- [ ] 整合Prisma ORM 
+- [x] 整合Prisma ORM 
   - https://www.npmjs.com/package/nestjs-prisma
   - https://prisma.yoga/concepts/components/prisma-client/crud
     - 标准字段

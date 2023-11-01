@@ -8,16 +8,18 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(uuid())
-  username String? @db.VarChar(255)
-  password String? @db.VarChar(255)
-  name     String? @db.VarChar(255)
+  id       String    @id @default(cuid())
+  username String?   @db.VarChar(255)
+  password String?   @db.VarChar(255)
+  name     String?   @db.VarChar(255)
+  deleted  DateTime? @db.DateTime()
 }
 
 model Role {
-  id       String  @id @default(uuid())
-  roleName String? @db.VarChar(255)
-  roleDesc String? @db.VarChar(255)
+  id       String    @id @default(cuid())
+  roleName String?   @db.VarChar(255)
+  roleDesc String?   @db.VarChar(255)
+  deleted  DateTime? @db.DateTime()
 }
 
 model BizLog {
@@ -30,6 +32,6 @@ model BizLog {
   user         String? @db.VarChar(255)
   clientId     String? @db.VarChar(255)
   during       String? @db.VarChar(255)
-  startTime    BigInt  @db.BigInt
+  startTime    BigInt  @db.BigInt()
   errorMessage String? @default("") @db.VarChar(1000)
 }

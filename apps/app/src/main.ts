@@ -1,6 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { HttpExceptionFilter, ServiceException } from '@happykit/common/error';
+import {
+  HttpExceptionFilter,
+  PrismaExceptionFilter,
+  ServiceException,
+} from '@happykit/common/error';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 import { WinstonModule } from 'nest-winston';
@@ -15,7 +19,7 @@ async function bootstrap() {
     }),
   });
   //全局异常处理
-  app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(new HttpExceptionFilter(), new PrismaExceptionFilter());
   //跨域
   app.enableCors();
   //校验
@@ -38,7 +42,6 @@ async function bootstrap() {
     .setTitle('Final Code API')
     .setDescription('The Final Code API Docs')
     .setVersion('1.0')
-    .addTag('App')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

@@ -54,14 +54,40 @@ export const jwtModule = JwtModule.registerAsync({
 });
 
 /**
- * mysql orm模块
+ * prisma模块
  */
 export const prismaModule = PrismaModule.forRootAsync({
   inject: [ConfigService],
   isGlobal: true,
   useFactory(configService: ConfigService) {
     const mySQLOption = configService.get<MySQLOption>('mysql.client')!;
-    return { prismaOptions: { datasourceUrl: mySQLOption.datasourceUrl } };
+    return {
+      prismaOptions: { datasourceUrl: mySQLOption.datasourceUrl },
+      middlewares: [
+        // SOFT DELETE
+        async (params, next) => {
+          if (params.action == 'delete') {
+            // Delete queries
+            // Change action to an update
+            params.action = 'update';
+            params.args['data'] = { deleted: new Date() };
+            params.args['where']['deleted'] = null;
+          }
+          if (params.action == 'deleteMany') {
+            // Delete many queries
+            params.action = 'updateMany';
+            if (params.args.data != undefined) {
+              params.args.data['deleted'] = new Date();
+              params.args['where']['deleted'] = null;
+            } else {
+              params.args['data'] = { deleted: new Date() };
+              params.args['where']['deleted'] = null;
+            }
+          }
+          return next(params);
+        },
+      ],
+    };
   },
 });
 

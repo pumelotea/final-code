@@ -6,7 +6,6 @@ import { AuthUserInfo } from '@happykit/common';
 import { RedisService } from '@songkeys/nestjs-redis';
 import { User } from '@happykit/common/decorator/user.decorator';
 import { BizLog } from '@happykit/common/decorator/log.decorator';
-import { Captcha } from '@happykit/common/decorator/captcha.decorator';
 import { Public } from '@happykit/common/decorator/public.decorator';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -30,22 +29,15 @@ export class UserController {
   // @Captcha()
   @Public()
   async test(@User() user: AuthUserInfo) {
-    await this.userService.create({
-      name: 'zf',
-      username: 'zzzz',
-      password: '2222',
-    });
-    // await this.redisService.getClient().set('aaa', '123', 'EX', 10);
-
-    // console.log(await this.redisService.getClient().get('aaa'));
-    return R.success(
-      await this.userService.findPage(
-        {},
-        {
-          pageNo: 1,
-          pageSize: 10,
-        },
-      ),
-    );
+    await this.userService.deleteById('clof43kcz0000pxu2qgcvmr79');
+    // return R.success(
+    //   await this.userService.findPage(
+    //     {},
+    //     {
+    //       pageNo: 1,
+    //       pageSize: 10,
+    //     },
+    //   ),
+    // );
   }
 }

@@ -4,8 +4,6 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthException } from '@happykit/common/error';
 import { Request as Req } from 'express';
 import { ReqUser } from '@happykit/common';
-import { CAPTCHA_META_KEY } from '@happykit/common/decorator/captcha.decorator';
-import { CaptchaService } from '@happykit/common/captcha/captcha.service';
 import { Reflector } from '@nestjs/core';
 import { PUBLIC_META_KEY } from '@happykit/common/decorator/public.decorator';
 
