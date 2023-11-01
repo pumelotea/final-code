@@ -9,13 +9,13 @@ import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 import { WinstonModule } from 'nest-winston';
 import { createLogger } from 'winston';
-import { loggerOptions } from './config/configuration';
+import { createLoggerOptions } from './config/configuration';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const application = await NestFactory.create(AppModule, {
     logger: WinstonModule.createLogger({
-      instance: createLogger({ ...loggerOptions }),
+      instance: createLogger({ ...createLoggerOptions('app') }),
     }),
   });
   //全局异常处理

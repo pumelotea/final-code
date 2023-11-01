@@ -127,35 +127,38 @@ const timeFormat = winston.format.timestamp({
   format: 'YYYY-MM-DD HH:mm:ss',
 });
 
-export const loggerOptions = {
-  transports: [
-    new winston.transports.Console({
-      format: winston.format.combine(
-        labelFormat,
-        timeFormat,
-        logFormatColorful,
-      ),
-    }),
-    new winston.transports.DailyRotateFile({
-      dirname: `logs`, // 日志保存的目录
-      filename: '%DATE%.combined.log', // 日志名称，占位符 %DATE% 取值为 datePattern 值。
-      datePattern: 'YYYY-MM-DD', // 日志轮换的频率，此处表示每天。
-      zippedArchive: true, // 是否通过压缩的方式归档被轮换的日志文件。
-      maxSize: '20m',
-      maxFiles: '14d', // 保留日志文件的最大天数，此处表示自动删除超过 14 天的日志文件。
-      // 记录时添加时间戳信息
-      format: winston.format.combine(labelFormat, timeFormat, logFormat),
-    }),
-    new winston.transports.DailyRotateFile({
-      level: 'error',
-      dirname: `logs`, // 日志保存的目录
-      filename: '%DATE%.error.log', // 日志名称，占位符 %DATE% 取值为 datePattern 值。
-      datePattern: 'YYYY-MM-DD', // 日志轮换的频率，此处表示每天。
-      zippedArchive: true, // 是否通过压缩的方式归档被轮换的日志文件。
-      maxSize: '20m',
-      maxFiles: '14d', // 保留日志文件的最大天数，此处表示自动删除超过 14 天的日志文件。
-      // 记录时添加时间戳信息
-      format: winston.format.combine(labelFormat, timeFormat, logFormat),
-    }),
-  ],
-};
+
+export function createLoggerOptions(prefix:string){
+  return {
+    transports: [
+      new winston.transports.Console({
+        format: winston.format.combine(
+          labelFormat,
+          timeFormat,
+          logFormatColorful,
+        ),
+      }),
+      new winston.transports.DailyRotateFile({
+        dirname: `logs`, // 日志保存的目录
+        filename: prefix + '-%DATE%.combined.log', // 日志名称，占位符 %DATE% 取值为 datePattern 值。
+        datePattern: 'YYYY-MM-DD', // 日志轮换的频率，此处表示每天。
+        zippedArchive: true, // 是否通过压缩的方式归档被轮换的日志文件。
+        maxSize: '20m',
+        maxFiles: '14d', // 保留日志文件的最大天数，此处表示自动删除超过 14 天的日志文件。
+        // 记录时添加时间戳信息
+        format: winston.format.combine(labelFormat, timeFormat, logFormat),
+      }),
+      new winston.transports.DailyRotateFile({
+        level: 'error',
+        dirname: `logs`, // 日志保存的目录
+        filename: prefix + '-%DATE%.error.log', // 日志名称，占位符 %DATE% 取值为 datePattern 值。
+        datePattern: 'YYYY-MM-DD', // 日志轮换的频率，此处表示每天。
+        zippedArchive: true, // 是否通过压缩的方式归档被轮换的日志文件。
+        maxSize: '20m',
+        maxFiles: '14d', // 保留日志文件的最大天数，此处表示自动删除超过 14 天的日志文件。
+        // 记录时添加时间戳信息
+        format: winston.format.combine(labelFormat, timeFormat, logFormat),
+      }),
+    ],
+  };
+}
