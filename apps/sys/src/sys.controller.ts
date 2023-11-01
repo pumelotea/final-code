@@ -1,12 +1,17 @@
 import { Controller, Get } from '@nestjs/common';
-import { SysService } from './sys.service';
+import { Public } from '@happykit/common/decorator/public.decorator';
+import { R } from '@happykit/common/result';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller()
+@ApiTags('健康')
 export class SysController {
-  constructor(private readonly sysService: SysService) {}
-
+  /**
+   * APP服务健康检查
+   */
   @Get()
-  getHello(): string {
-    return this.sysService.getHello();
+  @Public()
+  index() {
+    return R.success('Application Online');
   }
 }

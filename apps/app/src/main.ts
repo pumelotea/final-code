@@ -13,17 +13,17 @@ import { loggerOptions } from './config/configuration';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
+  const application = await NestFactory.create(AppModule, {
     logger: WinstonModule.createLogger({
       instance: createLogger({ ...loggerOptions }),
     }),
   });
   //全局异常处理
-  app.useGlobalFilters(new HttpExceptionFilter(), new PrismaExceptionFilter());
+  application.useGlobalFilters(new HttpExceptionFilter(), new PrismaExceptionFilter());
   //跨域
-  app.enableCors();
+  application.enableCors();
   //校验
-  app.useGlobalPipes(
+  application.useGlobalPipes(
     new ValidationPipe({
       transform: true,
       exceptionFactory: (errors) => {
@@ -35,7 +35,7 @@ async function bootstrap() {
     }),
   );
 
-  const configService = app.get(ConfigService);
+  const configService = application.get(ConfigService);
 
   //swagger
   const config = new DocumentBuilder()
@@ -43,10 +43,10 @@ async function bootstrap() {
     .setDescription('The Final Code API Docs')
     .setVersion('1.0')
     .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  const document = SwaggerModule.createDocument(application, config);
+  SwaggerModule.setup('api', application, document);
 
-  await app.listen(configService.get<number>('server.port')!);
+  await application.listen(configService.get<number>('server.port')!);
 }
 
 bootstrap();

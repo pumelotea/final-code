@@ -12,7 +12,8 @@
     "start:app:dev": "cross-env mode=local nest start app --watch",
     "start:sys:dev": "cross-env mode=local nest start sys --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/apps/app/main",
+    "start:app:prod": "mode=prod node dist/apps/app/main",
+    "start:sys:prod": "mode=prod node dist/apps/sys/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
   },
   "dependencies": {
