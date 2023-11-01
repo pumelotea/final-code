@@ -8,6 +8,7 @@ import { User } from '@happykit/common/decorator/user.decorator';
 import { BizLog } from '@happykit/common/decorator/log.decorator';
 import { Public } from '@happykit/common/decorator/public.decorator';
 import { ApiTags } from '@nestjs/swagger';
+import { Captcha } from '@happykit/common/decorator/captcha.decorator';
 
 @Controller('user')
 @ApiTags('用户')
@@ -25,19 +26,9 @@ export class UserController {
   }
 
   @Get('test')
+  @Captcha()
   @BizLog({ name: '授权模块', desc: '测试方法' })
-  // @Captcha()
-  @Public()
   async test(@User() user: AuthUserInfo) {
-    await this.userService.deleteById('clof43kcz0000pxu2qgcvmr79');
-    // return R.success(
-    //   await this.userService.findPage(
-    //     {},
-    //     {
-    //       pageNo: 1,
-    //       pageSize: 10,
-    //     },
-    //   ),
-    // );
+
   }
 }
