@@ -36,6 +36,7 @@
 
 ### 生成器
 - [ ] 通过生成器生成正删改查代码 `nest g res xxx`
+需要生成service、 dto、 vo、 controller
 
 
 ## 部署

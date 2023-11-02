@@ -11,14 +11,9 @@ import { FileModuleOptions } from '@happykit/common/file/file.module-definition'
 import { NestFactory } from '@nestjs/core';
 import { WinstonModule } from 'nest-winston';
 import { createLogger } from 'winston';
-import {
-  HttpExceptionFilter,
-  PrismaExceptionFilter,
-  ServiceException,
-} from '@happykit/common/error';
+import { HttpExceptionFilter, ServiceException } from '@happykit/common/error';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { Module } from '@nestjs/core/injector/module';
 
 /**
  * JWT 模块
@@ -193,10 +188,7 @@ export function createBootstrap(serviceName: string, module: any) {
       }),
     });
     //全局异常处理
-    application.useGlobalFilters(
-      new HttpExceptionFilter(),
-      new PrismaExceptionFilter(),
-    );
+    application.useGlobalFilters(new HttpExceptionFilter());
     //跨域
     application.enableCors();
     //校验

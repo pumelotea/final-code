@@ -57,7 +57,7 @@ export class FileController {
     if (!bucketList.includes(bucket)) {
       throw new ServiceException('存储桶不存在');
     }
-    return R.success(await this.fileService.upload(file, bucket));
+    return this.fileService.upload(file, bucket);
   }
 
   /**
@@ -71,13 +71,13 @@ export class FileController {
   async view(
     @Param('bucket') bucket: string,
     @Param('filename') filename: string,
-    @Query('token') token: string,
+    @Query('token') token?: string,
   ) {
     const anonymousAccess = this.fileService.fileConfig.anonymousAccess;
     // 开启授权访问模式，要求图片路径后面携带token
     if (!anonymousAccess) {
       try {
-        this.jwtService.verify(token);
+        this.jwtService.verify(token!);
       } catch (error) {
         throw new AuthException('失败');
       }

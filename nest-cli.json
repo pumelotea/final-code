@@ -9,6 +9,9 @@
   },
   "monorepo": true,
   "root": "./apps",
+  "generateOptions": {
+    "spec": false
+  },
   "projects": {
     "app": {
       "type": "application",

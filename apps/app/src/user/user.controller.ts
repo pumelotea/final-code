@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { LoginDto } from './dto/login.dto';
-import { R } from '@happykit/common/result';
 import { AuthUserInfo } from '@happykit/common';
 import { RedisService } from '@songkeys/nestjs-redis';
 import { User } from '@happykit/common/decorator/user.decorator';
@@ -22,7 +21,7 @@ export class UserController {
   @BizLog({ name: '授权模块', desc: '账号密码登录' })
   @Public()
   signIn(@Body() loginDto: LoginDto) {
-    return R.success(this.userService.signIn(loginDto));
+    return this.userService.signIn(loginDto);
   }
 
   @Get('test')

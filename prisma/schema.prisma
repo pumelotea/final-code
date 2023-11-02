@@ -16,10 +16,15 @@ model User {
 }
 
 model Role {
-  id       String    @id @default(cuid())
-  roleName String?   @db.VarChar(255)
-  roleDesc String?   @db.VarChar(255)
-  deleted  DateTime? @db.DateTime()
+  id        String    @id @default(cuid())
+  roleName  String?   @db.VarChar(255)
+  roleDesc  String?   @db.VarChar(255)
+  createdAt DateTime? @db.DateTime()
+  createdBy String?   @db.VarChar(255)
+  updatedAt DateTime? @db.DateTime()
+  updatedBy String?   @db.VarChar(255)
+  deleted   DateTime? @db.DateTime()
+  deletedBy String?   @db.VarChar(255)
 }
 
 model BizLog {
