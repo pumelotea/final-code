@@ -20,6 +20,8 @@ import { Readable as ReadableStream } from 'node:stream';
 import { ConfigService } from '@nestjs/config';
 import { BizLog } from '@happykit/common/decorator/log.decorator';
 import { ApiTags } from '@nestjs/swagger';
+import { Public } from '@happykit/common/decorator/public.decorator';
+import { SkipTransform } from '@happykit/common/decorator/vo.decorator';
 
 @ApiTags('通用文件')
 @Controller('file')
@@ -68,6 +70,7 @@ export class FileController {
    */
   @Get('/access/:bucket/:filename')
   @BizLog({ name: '文件', desc: '文件预览' })
+  @SkipTransform()
   async view(
     @Param('bucket') bucket: string,
     @Param('filename') filename: string,

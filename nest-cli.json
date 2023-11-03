@@ -24,7 +24,10 @@
           "name": "@nestjs/swagger",
           "options": {
             "classValidatorShim": true,
-            "introspectComments": true
+            "introspectComments": true,
+            "dtoFileNameSuffix": [
+              ".dto.ts", ".vo.ts"
+            ]
           }
         }]
       }
@@ -40,7 +43,8 @@
           "name": "@nestjs/swagger",
           "options": {
             "classValidatorShim": true,
-            "introspectComments": true
+            "introspectComments": true,
+            "dtoFileNameSuffix": [".dto.ts", ".vo.ts"]
           }
         }]
       }

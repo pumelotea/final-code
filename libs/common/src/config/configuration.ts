@@ -216,6 +216,7 @@ export function createBootstrap(serviceName: string, module: any) {
     const document = SwaggerModule.createDocument(application, config);
     SwaggerModule.setup('api', application, document);
 
+
     await application.listen(configService.get<number>('server.port')!, () => {
       Logger.log(
         `API Served On http://127.0.0.1:${configService.get<number>(

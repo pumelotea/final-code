@@ -1,3 +1,5 @@
+import { ApiProperty } from '@nestjs/swagger';
+
 export class Result<T> {
   constructor(code: number, success: boolean, message: string, payload: T) {
     this.code = code;
@@ -6,15 +8,15 @@ export class Result<T> {
     this.payload = payload;
     this.timestamp = Date.now();
   }
-
+  @ApiProperty({ description: '时间戳' })
   timestamp: number;
-
+  @ApiProperty({ description: '状态码' })
   code: number;
-
+  @ApiProperty({ description: '成功标记' })
   success: boolean;
-
+  @ApiProperty({ description: '消息' })
   message: string;
-
+  @ApiProperty({ description: '载荷' })
   payload: T | null;
 }
 

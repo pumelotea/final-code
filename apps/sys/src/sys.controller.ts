@@ -1,6 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
 import { Public } from '@happykit/common/decorator/public.decorator';
-import { R } from '@happykit/common/result';
 import { ApiTags } from '@nestjs/swagger';
 
 @Controller()
@@ -12,6 +11,6 @@ export class SysController {
   @Get()
   @Public()
   index() {
-    return R.success(`Sys Application Run Mode [${process.env.mode}]`);
+    return `Sys Application Run Mode [${process.env.mode}]`;
   }
 }
