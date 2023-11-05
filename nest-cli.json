@@ -20,16 +20,19 @@
       "sourceRoot": "apps/app/src",
       "compilerOptions": {
         "tsConfigPath": "apps/app/tsconfig.app.json",
-        "plugins": [{
-          "name": "@nestjs/swagger",
-          "options": {
-            "classValidatorShim": true,
-            "introspectComments": true,
-            "dtoFileNameSuffix": [
-              ".dto.ts", ".vo.ts"
-            ]
+        "plugins": [
+          {
+            "name": "@nestjs/swagger",
+            "options": {
+              "classValidatorShim": true,
+              "introspectComments": true,
+              "dtoFileNameSuffix": [
+                ".dto.ts",
+                ".vo.ts"
+              ]
+            }
           }
-        }]
+        ]
       }
     },
     "sys": {
@@ -38,15 +41,23 @@
       "entryFile": "main",
       "sourceRoot": "apps/sys/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/sys/tsconfig.app.json",
-        "plugins": [{
-          "name": "@nestjs/swagger",
-          "options": {
-            "classValidatorShim": true,
-            "introspectComments": true,
-            "dtoFileNameSuffix": [".dto.ts", ".vo.ts"]
+        "tsConfigPath": "apps/sys/tsconfig.sys.json",
+        "plugins": [
+          {
+            "name": "@nestjs/swagger",
+            "options": {
+              "classValidatorShim": true,
+              "introspectComments": true,
+              "dtoFileNameSuffix": [
+                ".dto.ts",
+                ".vo.ts"
+              ]
+            }
+          },
+          {
+            "name": "voooer"
           }
-        }]
+        ]
       }
     },
     "common": {

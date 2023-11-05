@@ -1,4 +1,6 @@
-export class RolePageVo {
+import { BaseVo } from '@happykit/common/base/base.vo';
+
+export class RolePageVo extends BaseVo {
   /**
    * id
    */

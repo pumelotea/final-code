@@ -11,10 +11,10 @@ import {
 import { RoleService } from './role.service';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
-import { ApiExtraModels, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { Public } from '@happykit/common/decorator/public.decorator';
 import { RoleVo } from './vo/role.vo';
-import { ApiResult, AutoVo, VoType } from '@happykit/common/decorator/vo.decorator';
+import { AutoVo, VoType } from '@happykit/common/decorator/vo.decorator';
 import { RolePageVo } from './vo/role-page.vo';
 
 @Controller('role')
@@ -22,11 +22,19 @@ import { RolePageVo } from './vo/role-page.vo';
 export class RoleController {
   constructor(private readonly roleService: RoleService) {}
 
+  @Get('/aaa')
+  @AutoVo({ type: RoleVo })
+  @Public()
+  async test() {
+    const x = new RoleVo();
+    x.id = '111';
+    x.roleName = 'Aaaa';
+    x.roleDesc = 'xaksdmalksdml';
+    return x;
+  }
+
   /**
    * 创建角色
-   * # 阿斯达深
-   * - 阿斯达
-   * - 阿斯达
    * @param createRoleDto
    */
   @Post()

@@ -27,7 +27,5 @@ export class UserController {
   @Get('test')
   @Captcha()
   @BizLog({ name: '授权模块', desc: '测试方法' })
-  async test(@User() user: AuthUserInfo) {
-
-  }
+  async test(@User() user: AuthUserInfo) {}
 }

@@ -1,4 +1,3 @@
-
 export class BaseVo {
   /**
    * 创建时间

@@ -10,13 +10,67 @@ import { Reflector } from '@nestjs/core';
 import {
   SKIP_TRANS_META_KEY,
   VO_META_KEY,
+  VO_PROPERTY_TRANSFORMER_META_KEY,
   VoMeta,
+  VoPropertyTransformer,
   VoType,
 } from '@happykit/common/decorator/vo.decorator';
+import { METADATA_FACTORY_NAME as VOOOER } from 'voooer/dist/plugin-constants';
 
 @Injectable()
 export class ResultInterceptor implements NestInterceptor {
   constructor(private readonly reflector: Reflector) {}
+
+  /**
+   * 获取vo的属性列表
+   * @param voType
+   * @private
+   */
+  private getPropertyKeys(voType: any): string[] {
+    const keys: string[] = [];
+    let proto = voType;
+    let staticFn = Reflect.get(proto, VOOOER);
+    while (staticFn) {
+      const tKs = Object.keys(staticFn());
+      keys.push(...tKs);
+      proto = Reflect.getPrototypeOf(proto);
+      staticFn = Reflect.get(proto, VOOOER);
+    }
+    return keys;
+  }
+
+  private getTransformers(
+    target: any,
+    propertyKey: string,
+  ): VoPropertyTransformer[] {
+    const transformerMeta: Record<string, VoPropertyTransformer[]> =
+      Reflect.getMetadata(VO_PROPERTY_TRANSFORMER_META_KEY, target.prototype);
+    return [...(transformerMeta[propertyKey] || [])].reverse();
+  }
+
+  /**
+   * 复制vo
+   * @param voType
+   * @param keys
+   * @param from
+   * @private
+   */
+  private copy2Vo(voType: any, keys: string[], from: any): any {
+    const obj = Reflect.construct(voType, []) as any;
+    keys.forEach((propertyKey) => {
+      if (Reflect.has(from, propertyKey)) {
+        let dataValue = Reflect.get(from, propertyKey);
+        // @VoPropertyTransform装饰器的数据转换器实现
+        const transformers = this.getTransformers(voType, propertyKey);
+        transformers.forEach((fn) => {
+          dataValue = fn.process(dataValue);
+        });
+        obj[propertyKey] = dataValue;
+      }
+    });
+    return obj;
+  }
+
   async intercept(context: ExecutionContext, next: CallHandler) {
     const meta = this.reflector.get<VoMeta>(VO_META_KEY, context.getHandler());
     const skipTrans = this.reflector.get<boolean>(
@@ -32,34 +86,20 @@ export class ResultInterceptor implements NestInterceptor {
         if (!meta) {
           return R.success(args[0]);
         }
-        const keys: string[] = Reflect.getMetadata(
-          'swagger/apiModelPropertiesArray',
-          meta.type.prototype,
-        ).map((e: string) => e.substring(1));
 
+        const keys = this.getPropertyKeys(meta.type);
+        const from = args[0] || {};
         //常规对象
         if (!meta.voType || meta.voType === VoType.OBJECT) {
-          const target = args[0] || {};
-          const obj = Reflect.construct(meta.type, []) as any;
-          keys.forEach((k) => {
-            if (Reflect.has(target, k)) {
-              obj[k] = Reflect.get(target, k);
-            }
-          });
+          const obj = this.copy2Vo(meta.type, keys, from);
           return R.success(obj);
         }
 
         // 列表
         if (meta.voType === VoType.LIST) {
-          const target = args[0] || [];
           const list: any[] = [];
-          target.forEach((t: any) => {
-            const obj = Reflect.construct(meta.type, []) as any;
-            keys.forEach((k) => {
-              if (Reflect.has(t, k)) {
-                obj[k] = Reflect.get(t, k);
-              }
-            });
+          from.forEach((t: any) => {
+            const obj = this.copy2Vo(meta.type, keys, t);
             list.push(obj);
           });
           return R.success(list);
@@ -67,20 +107,14 @@ export class ResultInterceptor implements NestInterceptor {
 
         // 分页
         if (meta.voType === VoType.PAGE) {
-          const target = args[0] || {};
           const list: any[] = [];
-          target.list.forEach((t: any) => {
-            const obj = Reflect.construct(meta.type, []) as any;
-            keys.forEach((k) => {
-              if (Reflect.has(t, k)) {
-                obj[k] = Reflect.get(t, k);
-              }
-            });
+          from.list.forEach((t: any) => {
+            const obj = this.copy2Vo(meta.type, keys, t);
             list.push(obj);
           });
           return R.success({
             list,
-            total: target.total,
+            total: from.total,
           });
         }
       }),
