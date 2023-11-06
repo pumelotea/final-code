@@ -44,6 +44,9 @@
         "tsConfigPath": "apps/sys/tsconfig.sys.json",
         "plugins": [
           {
+            "name": "@codecoderun/voooer"
+          },
+          {
             "name": "@nestjs/swagger",
             "options": {
               "classValidatorShim": true,
@@ -53,9 +56,6 @@
                 ".vo.ts"
               ]
             }
-          },
-          {
-            "name": "voooer"
           }
         ]
       }

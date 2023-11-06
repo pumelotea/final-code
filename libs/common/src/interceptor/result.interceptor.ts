@@ -15,7 +15,7 @@ import {
   VoPropertyTransformer,
   VoType,
 } from '@happykit/common/decorator/vo.decorator';
-import { METADATA_FACTORY_NAME as VOOOER } from 'voooer/dist/plugin-constants';
+import { METADATA_FACTORY_NAME as VOOOER } from '@codecoderun/voooer/dist/plugin-constants';
 
 @Injectable()
 export class ResultInterceptor implements NestInterceptor {
