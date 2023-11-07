@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@codecoderun/swagger';
 
 export class Result<T> {
   constructor(code: number, success: boolean, message: string, payload: T) {

@@ -22,7 +22,10 @@
         "tsConfigPath": "apps/app/tsconfig.app.json",
         "plugins": [
           {
-            "name": "@nestjs/swagger",
+            "name": "@codecoderun/voooer"
+          },
+          {
+            "name": "@codecoderun/swagger",
             "options": {
               "classValidatorShim": true,
               "introspectComments": true,
@@ -47,7 +50,7 @@
             "name": "@codecoderun/voooer"
           },
           {
-            "name": "@nestjs/swagger",
+            "name": "@codecoderun/swagger",
             "options": {
               "classValidatorShim": true,
               "introspectComments": true,

@@ -44,7 +44,7 @@ export class ResultInterceptor implements NestInterceptor {
     propertyKey: string,
   ): VoPropertyTransformer[] {
     const transformerMeta: Record<string, VoPropertyTransformer[]> =
-      Reflect.getMetadata(VO_PROPERTY_TRANSFORMER_META_KEY, target.prototype);
+      Reflect.getMetadata(VO_PROPERTY_TRANSFORMER_META_KEY, target.prototype) || {};
     return [...(transformerMeta[propertyKey] || [])].reverse();
   }
 

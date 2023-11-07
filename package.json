@@ -16,13 +16,13 @@
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\""
   },
   "dependencies": {
+    "@codecoderun/swagger": "^1.0.2",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.1.1",
     "@nestjs/core": "^10.0.0",
     "@nestjs/jwt": "^10.1.1",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^10.0.0",
-    "@nestjs/swagger": "^7.1.14",
     "@prisma/client": "5.4.2",
     "@songkeys/nestjs-redis": "^10.0.0",
     "class-transformer": "^0.5.1",

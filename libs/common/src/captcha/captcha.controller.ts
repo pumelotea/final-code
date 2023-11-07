@@ -2,7 +2,7 @@ import { Controller, Get } from '@nestjs/common';
 import { CaptchaService } from '@happykit/common/captcha/captcha.service';
 import { BizLog } from '@happykit/common/decorator/log.decorator';
 import { Public } from '@happykit/common/decorator/public.decorator';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@codecoderun/swagger';
 
 @Controller('captcha')
 @ApiTags('验证码')

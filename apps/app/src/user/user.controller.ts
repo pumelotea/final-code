@@ -6,7 +6,7 @@ import { RedisService } from '@songkeys/nestjs-redis';
 import { User } from '@happykit/common/decorator/user.decorator';
 import { BizLog } from '@happykit/common/decorator/log.decorator';
 import { Public } from '@happykit/common/decorator/public.decorator';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@codecoderun/swagger';
 import { Captcha } from '@happykit/common/decorator/captcha.decorator';
 
 @Controller('user')

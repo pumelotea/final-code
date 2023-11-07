@@ -11,10 +11,10 @@ import {
 import { RoleService } from './role.service';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@codecoderun/swagger';
 import { Public } from '@happykit/common/decorator/public.decorator';
 import { RoleVo } from './vo/role.vo';
-import { AutoVo, VoType } from '@happykit/common/decorator/vo.decorator';
+import { AutoVo, Vo, VoType } from '@happykit/common/decorator/vo.decorator';
 import { RolePageVo } from './vo/role-page.vo';
 
 @Controller('role')
@@ -22,24 +22,20 @@ import { RolePageVo } from './vo/role-page.vo';
 export class RoleController {
   constructor(private readonly roleService: RoleService) {}
 
+  /**
+   * find all Cats im comment
+   */
   @Get('/aaa')
-  @AutoVo({ type: RoleVo })
-  @Public()
-  async test() {
-    const x = new RoleVo();
-    x.id = '111';
-    x.roleName = 'Aaaa';
-    x.roleDesc = 'xaksdmalksdml';
-    return x;
-  }
+  @Vo({ type: RoleVo })
+  async test() {}
 
   /**
    * 创建角色
    * @param createRoleDto
    */
   @Post()
-  @AutoVo({ type: RoleVo })
   @Public()
+  @AutoVo({ type: RoleVo })
   async create(@Body() createRoleDto: CreateRoleDto) {
     return await this.roleService.create(createRoleDto);
   }

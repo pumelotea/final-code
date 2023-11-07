@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { Public } from '@happykit/common/decorator/public.decorator';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@codecoderun/swagger';
 import * as process from 'process';
 
 @Controller()

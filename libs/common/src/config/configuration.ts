@@ -13,7 +13,7 @@ import { WinstonModule } from 'nest-winston';
 import { createLogger } from 'winston';
 import { HttpExceptionFilter, ServiceException } from '@happykit/common/error';
 import { Logger, ValidationPipe } from '@nestjs/common';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { DocumentBuilder, SwaggerModule } from '@codecoderun/swagger';
 
 /**
  * JWT 模块

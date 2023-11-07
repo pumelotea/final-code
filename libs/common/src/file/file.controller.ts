@@ -19,7 +19,7 @@ import { CommonFileService } from '@happykit/common/file/file.module-definition'
 import { Readable as ReadableStream } from 'node:stream';
 import { ConfigService } from '@nestjs/config';
 import { BizLog } from '@happykit/common/decorator/log.decorator';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@codecoderun/swagger';
 import { Public } from '@happykit/common/decorator/public.decorator';
 import { SkipTransform } from '@happykit/common/decorator/vo.decorator';
 
