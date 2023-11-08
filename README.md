@@ -41,7 +41,8 @@ const options = () => {
 ```
 
 ## 响应统一JSON
-
+> 常规请求方法编写返回数据不需要使用`R.success()`，框架会在结果输出前自动包装`Result`结构。如果需要跳过一切结果处理，
+> 可以在请求方法上添加注解`@SkipTransform()`.
 ```typescript
 export class Result<T> {
   constructor(code: number, success: boolean, message: string, payload: T) {
@@ -174,3 +175,26 @@ const text = request.headers['captcha-text'];
 默认实现了一个基础的服务，常规服务可以继承该服务，便可快速实现CRUD。
 详细文档：https://www.prisma.io/
 
+## 自动Vo：@AutoVo 和 @Vo
+支持在请求方法上添加`@AutoVo`注解，配合`@VoPropertyTransform`进行数据拷贝和属性转换
+```typescript
+ @Get('/aaa')
+@AutoVo({ type: RoleVo })
+async test(): Promise<RoleVo> {
+  return new RoleVo();
+}
+
+export class RoleVo extends BaseVo {
+  @VoPropertyTransform({ process: (v: any) => `aaaaaa` })
+  id: string;
+  /**
+   * 角色名称
+   */
+  roleName: string;
+  /**
+   * 角色描述
+   */
+  roleDesc: string;
+}
+```
+`@Vo`注解只影响swagger文档生成。
