@@ -14,7 +14,7 @@ import { UpdateRoleDto } from './dto/update-role.dto';
 import { ApiTags } from '@codecoderun/swagger';
 import { Public } from '@happykit/common/decorator/public.decorator';
 import { RoleVo } from './vo/role.vo';
-import { AutoVo, Vo, VoType } from '@happykit/common/decorator/vo.decorator';
+import { AutoVo, VoType } from '@happykit/common/decorator/vo.decorator';
 import { RolePageVo } from './vo/role-page.vo';
 
 @Controller('role')
@@ -26,12 +26,15 @@ export class RoleController {
    * find all Cats im comment
    */
   @Get('/aaa')
-  @Vo({ type: RoleVo })
-  async test() {}
+  @AutoVo({ type: RoleVo })
+  async test(): Promise<RoleVo> {
+    return new RoleVo();
+  }
 
   /**
    * 创建角色
    * @param createRoleDto
+   * @
    */
   @Post()
   @Public()

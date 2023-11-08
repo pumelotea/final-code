@@ -1,5 +1,4 @@
-
-export class RolePageVo{
+export class RolePageVo {
   /**
    * id
    */

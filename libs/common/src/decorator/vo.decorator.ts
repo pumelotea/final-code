@@ -1,9 +1,4 @@
 import { applyDecorators, SetMetadata } from '@nestjs/common';
-import { Result } from '@happykit/common/result';
-import { Type, HttpStatus } from '@nestjs/common';
-import { ApiExtraModels, ApiResponse, getSchemaPath } from '@codecoderun/swagger';
-
-const baseTypeNames = ['String', 'Number', 'Boolean'];
 
 export const VO_META_KEY = Symbol('VO_META_KEY');
 export const VO_KEY = Symbol('VO_KEY');
