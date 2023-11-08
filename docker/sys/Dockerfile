@@ -23,4 +23,4 @@ COPY dist/ ./dist/
 
 EXPOSE 8080
 # 启动服务
-CMD [ "yarn", "run", "start:app:prod" ]
+CMD [ "yarn", "run", "start:sys:prod" ]
