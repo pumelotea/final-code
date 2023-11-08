@@ -17,7 +17,12 @@ export abstract class BaseService<T> {
     return await this.model.create({ data });
   }
   public async findAll(where: Partial<T>): Promise<T[]> {
-    return await this.model.findMany({ where });
+    return await this.model.findMany({
+      where: {
+        ...where,
+        deleted: null,
+      },
+    });
   }
   public async findPage(
     where: Partial<T>,
@@ -34,8 +39,23 @@ export abstract class BaseService<T> {
     const skip = (Number(pageNo) - 1) * Number(pageSize);
     const take = Number(pageSize);
     const [list, count] = await Promise.all([
-      this.model.findMany({ where, select, include, orderBy, skip, take }),
-      this.model.count({ where }),
+      this.model.findMany({
+        where: {
+          ...where,
+          deleted: null,
+        },
+        select,
+        include,
+        orderBy,
+        skip,
+        take,
+      }),
+      this.model.count({
+        where: {
+          ...where,
+          deleted: null,
+        },
+      }),
     ]);
     return {
       list,
@@ -46,7 +66,7 @@ export abstract class BaseService<T> {
   public async findById(id: string, options?: Partial<Options>): Promise<T> {
     const { select, include } = options || {};
     return await this.model.findUnique({
-      where: { id },
+      where: { id, deleted: null },
       select,
       include,
     });
@@ -57,12 +77,22 @@ export abstract class BaseService<T> {
     options: Partial<Options>,
   ): Promise<T> {
     const { select, include } = options;
-    return await this.model.findFirst({ where, select, include });
+    return await this.model.findFirst({
+      where: {
+        ...where,
+        deleted: null,
+      },
+      select,
+      include,
+    });
   }
 
   public async updateOne(where: Partial<T>, data: Partial<T>) {
     return await this.model.upsert({
-      where,
+      where: {
+        ...where,
+        deleted: null,
+      },
       update: data,
       create: data,
     });

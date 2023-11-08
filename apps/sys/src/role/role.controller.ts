@@ -12,7 +12,6 @@ import { RoleService } from './role.service';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { ApiTags } from '@codecoderun/swagger';
-import { Public } from '@happykit/common/decorator/public.decorator';
 import { RoleVo } from './vo/role.vo';
 import { AutoVo, VoType } from '@happykit/common/decorator/vo.decorator';
 import { RolePageVo } from './vo/role-page.vo';
@@ -21,23 +20,12 @@ import { RolePageVo } from './vo/role-page.vo';
 @ApiTags('系统角色')
 export class RoleController {
   constructor(private readonly roleService: RoleService) {}
-
-  /**
-   * find all Cats im comment
-   */
-  @Get('/aaa')
-  @AutoVo({ type: RoleVo })
-  async test(): Promise<RoleVo> {
-    return new RoleVo();
-  }
-
   /**
    * 创建角色
    * @param createRoleDto
    * @
    */
   @Post()
-  @Public()
   @AutoVo({ type: RoleVo })
   async create(@Body() createRoleDto: CreateRoleDto) {
     return await this.roleService.create(createRoleDto);
@@ -50,7 +38,6 @@ export class RoleController {
    */
   @Get()
   @AutoVo({ type: RolePageVo, voType: VoType.PAGE })
-  @Public()
   async findPage(
     @Query('pageNo') pageNo: number,
     @Query('pageSize') pageSize: number,
@@ -77,7 +64,6 @@ export class RoleController {
   }
 
   @Delete(':id')
-  @Public()
   @AutoVo({ type: RoleVo })
   async remove(@Param('id') id: string) {
     return await this.roleService.deleteById(id);

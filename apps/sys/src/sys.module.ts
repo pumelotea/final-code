@@ -16,6 +16,7 @@ import { CaptchaInterceptor } from '@happykit/common/interceptor/captcha.interce
 import { UserModule } from './user/user.module';
 import { RoleModule } from './role/role.module';
 import { ResultInterceptor } from '@happykit/common/interceptor/result.interceptor';
+import { SysConfigModule } from './sys-config/sys-config.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { ResultInterceptor } from '@happykit/common/interceptor/result.intercept
     UserModule,
     CaptchaModule,
     RoleModule,
+    SysConfigModule,
   ],
   controllers: [SysController],
   providers: [
