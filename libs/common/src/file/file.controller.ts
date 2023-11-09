@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FileService } from '@happykit/common/file/file.service';
-import { R } from '@happykit/common/result';
 import { JwtService } from '@nestjs/jwt';
 import { AuthException, ServiceException } from '@happykit/common/error';
 import { MinioService } from '@happykit/common/file/minio.service';
@@ -20,7 +19,6 @@ import { Readable as ReadableStream } from 'node:stream';
 import { ConfigService } from '@nestjs/config';
 import { BizLog } from '@happykit/common/decorator/log.decorator';
 import { ApiTags } from '@codecoderun/swagger';
-import { Public } from '@happykit/common/decorator/public.decorator';
 import { SkipTransform } from '@happykit/common/decorator/vo.decorator';
 
 @ApiTags('通用文件')

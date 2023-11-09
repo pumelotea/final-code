@@ -15,6 +15,7 @@ import { ApiTags } from '@codecoderun/swagger';
 import { AutoVo, VoType } from '@happykit/common/decorator/vo.decorator';
 import { SysConfigVo } from './vo/sys-config.vo';
 import { ServiceException } from '@happykit/common/error';
+import { Public } from '@happykit/common/decorator/public.decorator';
 
 @Controller('sys-config')
 @ApiTags('系统配置')
@@ -26,6 +27,7 @@ export class SysConfigController {
    * @param createSysConfigDto
    */
   @Post()
+  @Public()
   @AutoVo({ type: SysConfigVo })
   async create(@Body() createSysConfigDto: CreateSysConfigDto) {
     return await this.sysConfigService.create(createSysConfigDto);

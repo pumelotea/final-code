@@ -1,4 +1,4 @@
-import { PipeTransform, Injectable, ArgumentMetadata } from '@nestjs/common';
+import { PipeTransform, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { FileModuleOptions } from '@happykit/common/file/file.module-definition';
 import { ServiceException } from '@happykit/common/error';

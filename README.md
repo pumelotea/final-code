@@ -198,3 +198,8 @@ export class RoleVo extends BaseVo {
 }
 ```
 `@Vo`注解只影响swagger文档生成。
+
+## CRUD代码生成助手
+
+在项目根目录进行调用 `./generate.ts 工程名称 模型名`，
+如果模型不存在请先自行prisma的同步指令。

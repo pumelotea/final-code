@@ -2,6 +2,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator jsonSchema {
+  provider = "prisma-json-schema-generator"
+}
+
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
@@ -9,11 +13,16 @@ datasource db {
 
 // 系统配置
 model SysConfig {
-  id        String    @id @default(cuid()) // 主键ID
-  key       String    @db.VarChar(255) // 参数键
-  value     String    @db.VarChar(255) // 参数值
-  type      String?   @default("sys") @db.VarChar(255) // 类型
-  remark    String?   @db.VarChar(255) // 备注
+  /// 主键ID
+  id        String    @id @default(cuid())
+  /// 参数键
+  key       String    @db.VarChar(255)
+  /// 参数值
+  value     String    @db.VarChar(255)
+  /// 类型
+  type      String?   @default("sys") @db.VarChar(255)
+  /// 备注
+  remark    String?   @db.VarChar(255)
   createdAt DateTime  @default(now()) @db.DateTime(3)
   createdBy String?   @db.VarChar(255)
   updatedAt DateTime? @updatedAt @db.DateTime(3)
