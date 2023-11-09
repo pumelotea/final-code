@@ -32,11 +32,29 @@ model SysConfig {
 }
 
 model User {
-  id       String    @id @default(cuid())
-  username String?   @db.VarChar(255)
-  password String?   @db.VarChar(255)
-  name     String?   @db.VarChar(255)
-  deleted  DateTime? @db.DateTime(3)
+  id          String  @id @default(cuid())
+  ///用户名
+  username    String? @db.VarChar(255)
+  ///密码
+  password    String? @db.VarChar(255)
+  salt        String? @db.VarChar(255)
+  ///姓名
+  name        String? @db.VarChar(255)
+  ///昵称
+  nickname    String? @db.VarChar(255)
+  ///头像
+  avatar      String? @db.Text
+  ///是否启用
+  isEnable    Boolean @default(true) @db.TinyInt
+  ///电话号码
+  phoneNumber String? @db.VarChar(40)
+
+  createdAt DateTime  @default(now()) @db.DateTime(3)
+  createdBy String?   @db.VarChar(255)
+  updatedAt DateTime? @updatedAt @db.DateTime(3)
+  updatedBy String?   @db.VarChar(255)
+  deleted   DateTime? @db.DateTime(3)
+  deletedBy String?   @db.VarChar(255)
 }
 
 model Role {
