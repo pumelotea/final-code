@@ -348,13 +348,16 @@ process.on('unhandledRejection', onError);
 
 cli
   // 添加命令 ‘<>’ 中为必填项，'[]'中为选填项
-  .command('<project> <model> <controllerName>', '使用Model创建CRUD到指定工程下')
+  .command(
+    '<project> <model> <controllerName>',
+    '使用Model创建CRUD到指定工程下',
+  )
   // 添加配置 --force 简写为 -f;
   // 如果目标存在则覆盖
   // .option('-f, --force', 'Overwrite if the target exists')
   // 添加配置 --offline 简写为 -o ;
   // 定义一个动作，传入一个回调函数
-  .action((project: string, model: string, controllerName:string) => {
+  .action((project: string, model: string, controllerName: string) => {
     generate(project, model, controllerName);
     console.log(`CRUD生成结束: 工程:${project} 模型:${model}`);
     console.log('请前往工程对应的主模块中引入生成的模块');
