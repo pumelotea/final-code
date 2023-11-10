@@ -88,13 +88,12 @@ export abstract class BaseService<T> {
   }
 
   public async updateOne(where: Partial<T>, data: Partial<T>) {
-    return await this.model.upsert({
+    return await this.model.update({
       where: {
         ...where,
         deleted: null,
       },
-      update: data,
-      create: data,
+      data,
     });
   }
 
