@@ -15,6 +15,8 @@ import { ApiTags } from '@codecoderun/swagger';
 import { AutoVo, VoType } from '@happykit/common/decorator/vo.decorator';
 import { UserVo } from './vo/user.vo';
 import { ServiceException } from '@happykit/common/error';
+import { BizLog } from '@happykit/common/decorator/log.decorator';
+import { Public } from '@happykit/common/decorator/public.decorator';
 
 @Controller('user')
 @ApiTags('用户')

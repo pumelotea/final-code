@@ -1,4 +1,4 @@
-import { Logger, Module } from '@nestjs/common';
+import { Logger, MiddlewareConsumer, Module } from '@nestjs/common';
 import { SysController } from './sys.controller';
 import { SysService } from './sys.service';
 import {
@@ -17,6 +17,7 @@ import { UserModule } from './user/user.module';
 import { RoleModule } from './role/role.module';
 import { ResultInterceptor } from '@happykit/common/interceptor/result.interceptor';
 import { SysConfigModule } from './sys-config/sys-config.module';
+import { RequestContextMiddleware } from '@happykit/common/context/request-context';
 
 @Module({
   imports: [
@@ -52,4 +53,8 @@ import { SysConfigModule } from './sys-config/sys-config.module';
     Logger,
   ],
 })
-export class SysModule {}
+export class SysModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(RequestContextMiddleware).forRoutes('*');
+  }
+}
