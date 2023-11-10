@@ -15,6 +15,7 @@ import { ApiTags } from '@codecoderun/swagger';
 import { AutoVo, VoType } from '@happykit/common/decorator/vo.decorator';
 import { SysConfigVo } from './vo/sys-config.vo';
 import { ServiceException } from '@happykit/common/error';
+import { BizLog } from '@happykit/common/decorator/log.decorator';
 
 @Controller('sys-config')
 @ApiTags('系统配置')
@@ -27,6 +28,7 @@ export class SysConfigController {
    */
   @Post()
   @AutoVo({ type: SysConfigVo })
+  @BizLog({ name: '系统配置', desc: '创建配置' })
   create(@Body() createSysConfigDto: CreateSysConfigDto) {
     return this.sysConfigService.create(createSysConfigDto);
   }
@@ -38,6 +40,7 @@ export class SysConfigController {
    */
   @Get()
   @AutoVo({ type: SysConfigVo, voType: VoType.PAGE })
+  @BizLog({ name: '系统配置', desc: '配置分页' })
   async findPage(
     @Query('pageNo') pageNo: number,
     @Query('pageSize') pageSize: number,
@@ -57,6 +60,7 @@ export class SysConfigController {
    */
   @Get(':id')
   @AutoVo({ type: SysConfigVo })
+  @BizLog({ name: '系统配置', desc: '配置详情' })
   async findOne(@Param('id') id: string) {
     const data = await this.sysConfigService.findById(id);
     if (!data) {
@@ -72,6 +76,7 @@ export class SysConfigController {
    */
   @Patch(':id')
   @AutoVo({ type: SysConfigVo })
+  @BizLog({ name: '系统配置', desc: '更新配置' })
   async update(
     @Param('id') id: string,
     @Body() updateSysConfigDto: UpdateSysConfigDto,

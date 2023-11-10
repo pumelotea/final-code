@@ -182,6 +182,7 @@ import { ApiTags } from '@codecoderun/swagger';
 import { AutoVo, VoType } from '@happykit/common/decorator/vo.decorator';
 import { ${model}Vo } from './vo/${toSnake(model)}.vo';
 import { ServiceException } from '@happykit/common/error';
+import { BizLog } from '@happykit/common/decorator/log.decorator';
 
 @Controller('${toSnake(model)}')
 @ApiTags('${controllerName}')
@@ -193,6 +194,7 @@ export class ${model}Controller {
    */
   @Post()
   @AutoVo({ type: ${model}Vo })
+  @BizLog({ name: '${controllerName}', desc: '创建${controllerName}' })
   async create(@Body() create${model}Dto: Create${model}Dto) {
     return await this.${cName}Service.create(create${model}Dto);
   }
@@ -202,6 +204,7 @@ export class ${model}Controller {
    */
   @Get()
   @AutoVo({ type: ${model}Vo, voType: VoType.PAGE })
+  @BizLog({ name: '${controllerName}', desc: '查询${controllerName}分页' })
   async findPage(
     @Query('pageNo') pageNo: number,
     @Query('pageSize') pageSize: number,
@@ -220,6 +223,7 @@ export class ${model}Controller {
    */
   @Get(':id')
   @AutoVo({ type: ${model}Vo })
+  @BizLog({ name: '${controllerName}', desc: '查询${controllerName}详情' })
   async findOne(@Param('id') id: string) {
     const data = await this.${cName}Service.findById(id);
     if (!data) {
@@ -233,6 +237,7 @@ export class ${model}Controller {
    */
   @Patch(':id')
   @AutoVo({ type: ${model}Vo })
+  @BizLog({ name: '${controllerName}', desc: '更新${controllerName}' })
   async update(
     @Param('id') id: string,
     @Body() update${model}Dto: Update${model}Dto,
@@ -245,6 +250,7 @@ export class ${model}Controller {
    */
   @Delete(':id')
   @AutoVo({ type: ${model}Vo })
+  @BizLog({ name: '${controllerName}', desc: '删除${controllerName}' })
   async remove(@Param('id') id: string) {
     return await this.${cName}Service.deleteById(id);
   }
