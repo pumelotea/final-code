@@ -201,5 +201,6 @@ export class RoleVo extends BaseVo {
 
 ## CRUD代码生成助手
 
-在项目根目录进行调用 `./generate.ts 工程名称 模型名`，
+在项目根目录进行调用 `./generate.ts 工程名称 模型名 控制器中文`，
 如果模型不存在请先自行prisma的同步指令。
+
