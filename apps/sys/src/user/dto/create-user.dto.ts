@@ -1,4 +1,4 @@
-import { IsOptional, IsNotEmpty } from 'class-validator';
+import { IsOptional } from 'class-validator';
 
 export class CreateUserDto {
   /**
@@ -31,7 +31,7 @@ export class CreateUserDto {
   /**
    * 是否启用
    */
-  @IsNotEmpty({ message: '是否启用不能为空' })
+  @IsOptional()
   isEnable: boolean;
   /**
    * 电话号码

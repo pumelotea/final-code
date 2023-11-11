@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { Public } from '@happykit/common/decorator/public.decorator';
 import { ApiTags } from '@codecoderun/swagger';
+import { SkipTransform } from '@happykit/common/decorator/vo.decorator';
 
 @Controller()
 @ApiTags('健康')

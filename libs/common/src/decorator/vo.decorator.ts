@@ -1,5 +1,6 @@
 import { applyDecorators, SetMetadata } from '@nestjs/common';
-
+import * as dayjs from 'dayjs';
+// moment.locale('zh-cn');
 export const VO_META_KEY = Symbol('VO_META_KEY');
 export const VO_KEY = Symbol('VO_KEY');
 export const SKIP_TRANS_META_KEY = Symbol('SKIP_TRANS_META_KEY');
@@ -57,4 +58,18 @@ export const VoPropertyTransform = (fn: VoPropertyTransformer) => {
     }
     transformerFns.push(fn);
   };
+};
+
+export const VoDate = (format?: string) => {
+  if (!format) {
+    format = 'YYYY-MM-DD HH:mm:ss';
+  }
+  return VoPropertyTransform({
+    process: (value: string) => {
+      if (!value) {
+        return value;
+      }
+      return dayjs(value).format(format);
+    },
+  });
 };

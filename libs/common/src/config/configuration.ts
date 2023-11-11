@@ -12,7 +12,7 @@ import { NestFactory } from '@nestjs/core';
 import { WinstonModule } from 'nest-winston';
 import { createLogger } from 'winston';
 import { HttpExceptionFilter, ServiceException } from '@happykit/common/error';
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { HttpServer, Logger, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@codecoderun/swagger';
 import { PrismaMiddleware } from '@happykit/common/prisma/prisma.middleware';
 
@@ -190,6 +190,7 @@ export function createBootstrap(serviceName: string, module: any) {
       .setTitle(`${serviceName} API`)
       .setDescription(`${serviceName} Docs`)
       .setVersion('1.0')
+      .addBearerAuth()
       .build();
     const document = SwaggerModule.createDocument(application, config);
     SwaggerModule.setup('api', application, document);
@@ -204,6 +205,11 @@ export function createBootstrap(serviceName: string, module: any) {
         `API Docs On http://127.0.0.1:${configService.get<number>(
           'server.port',
         )!}/api`,
+      );
+      Logger.log(
+        `API Docs Json On http://127.0.0.1:${configService.get<number>(
+          'server.port',
+        )!}/api-json`,
       );
     });
   };

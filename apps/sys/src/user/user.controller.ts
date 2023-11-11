@@ -97,7 +97,7 @@ export class UserController {
   @BizLog({ name: '用户', desc: '账号密码登录' })
   @AutoVo({ type: LoginVo })
   @Public()
-  @Captcha()
+  // @Captcha()
   signIn(@Body() loginDto: LoginDto) {
     return this.userService.signIn(loginDto);
   }

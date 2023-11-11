@@ -131,7 +131,7 @@ export class Update${model}Dto extends PartialType(Create${model}Dto) {}
 
 function makeVo(propList: any[]) {
   let body = '';
-  propList.forEach(({ pk, propType, description }) => {
+  propList.forEach(({ pk, propType, description, isOptional }) => {
     if (BASE_FILED_LIST.includes(pk)) {
       return;
     }
@@ -140,7 +140,7 @@ function makeVo(propList: any[]) {
    * ${description}
    */\n`;
     }
-    body += `  ${pk}: ${getType(propType)};\n`;
+    body += `  ${pk}${isOptional ? '?' : ''}: ${getType(propType)};\n`;
   });
   return `import { BaseVo } from '@happykit/common/base/base.vo';
 ${classGenerator(`${model}Vo`, body, 'BaseVo')}`;

@@ -42,7 +42,7 @@ export class UserService extends BaseService<User> {
       },
       {},
     );
-    
+
     if (!user) {
       throw new ServiceException('用户未找到');
     }

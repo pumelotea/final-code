@@ -5,30 +5,25 @@ export class UserVo extends BaseVo {
   /**
    * 用户名
    */
-  username: string;
-  /**
-   * 密码
-   */
-  password: string;
-  salt: string;
+  username?: string;
   /**
    * 姓名
    */
-  name: string;
+  name?: string;
   /**
    * 昵称
    */
-  nickname: string;
+  nickname?: string;
   /**
    * 头像
    */
-  avatar: string;
+  avatar?: string;
   /**
    * 是否启用
    */
-  isEnable: boolean;
+  isEnable?: boolean;
   /**
    * 电话号码
    */
-  phoneNumber: string;
+  phoneNumber?: string;
 }
