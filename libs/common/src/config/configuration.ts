@@ -14,7 +14,7 @@ import { createLogger } from 'winston';
 import { HttpExceptionFilter, ServiceException } from '@happykit/common/error';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@codecoderun/swagger';
-import { getCurrentRequest } from '@happykit/common/context/request-context';
+import { PrismaMiddleware } from '@happykit/common/prisma/prisma.middleware';
 
 /**
  * JWT 模块
@@ -41,51 +41,7 @@ export const prismaModule = PrismaModule.forRootAsync({
     const mySQLOption = configService.get<MySQLOption>('mysql.client')!;
     return {
       prismaOptions: { datasourceUrl: mySQLOption.datasourceUrl },
-      middlewares: [
-        // SOFT DELETE
-        async (params, next) => {
-          const req = getCurrentRequest();
-          let userId = null;
-          if (req?.user) {
-            userId = `${req.user.id}`;
-          }
-          if (params.action == 'delete') {
-            // Delete queries
-            // Change action to an update
-            params.action = 'update';
-            params.args['data'] = {
-              deleted: new Date(),
-              deletedBy: userId,
-            };
-            params.args['where']['deleted'] = null;
-          }
-          if (params.action == 'deleteMany') {
-            // Delete many queries
-            params.action = 'updateMany';
-            if (params.args.data != undefined) {
-              params.args.data['deleted'] = new Date();
-              params.args.data['deletedBy'] = userId;
-              params.args['where']['deleted'] = null;
-            } else {
-              params.args['data'] = { deleted: new Date() };
-              params.args['where']['deleted'] = null;
-            }
-          }
-
-          if (params.action == 'update' || params.action == 'updateMany') {
-            if (!params.args['data']['updatedBy']) {
-              params.args['data']['updatedBy'] = userId;
-            }
-          }
-
-          if (params.action == 'create' || params.action == 'createMany') {
-            if (!params.args['data']['createdBy']) {
-              params.args['data']['createdBy'] = userId;
-            }
-          }
-          return await next(params);
-        },
-      ],
+      middlewares: [PrismaMiddleware],
     };
   },
 });

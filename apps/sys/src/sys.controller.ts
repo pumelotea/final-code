@@ -13,4 +13,10 @@ export class SysController {
   index(): string {
     return `Sys Application Run Mode [${process.env.mode}]`;
   }
+
+  @Get('/health')
+  @Public()
+  health() {
+    return process.memoryUsage();
+  }
 }

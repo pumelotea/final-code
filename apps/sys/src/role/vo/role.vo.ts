@@ -1,11 +1,9 @@
 import { BaseVo } from '@happykit/common/base/base.vo';
 
-export class RoleVo extends BaseVo{
+export class RoleVo extends BaseVo {
+  id: string;
 
-	id: string;
+  roleName: string;
 
-	roleName: string;
-
-	roleDesc: string;
-
+  roleDesc: string;
 }
