@@ -20,9 +20,10 @@ const BASE_FILED_LIST = [
   'deleted',
   'deletedBy',
 ];
+
+const typeMap: Record<string, string> = { integer: 'number' };
 let project: any;
 let sourceRoot: string;
-
 let modelProperties: any;
 
 function isArray(value: any): boolean {
@@ -62,6 +63,13 @@ export function importGenerator(NAMES: string, MODULE: string) {
   return `import { ${NAMES} } from ${MODULE};`;
 }
 
+function getType(rawType: string) {
+  if (typeMap[rawType]) {
+    return typeMap[rawType];
+  }
+  return rawType;
+}
+
 function makeCreateDto(propList: any[]) {
   //DTO 不需要id
   propList = propList.filter((e) => e.pk !== 'id');
@@ -95,7 +103,7 @@ function makeCreateDto(propList: any[]) {
     } else {
       body += `  @IsNotEmpty({ message: '${description ?? ''}不能为空' })\n`;
     }
-    body += `  ${pk}${isOptional ? '?' : ''}: ${propType};\n`;
+    body += `  ${pk}${isOptional ? '?' : ''}: ${getType(propType)};\n`;
   });
   return `${importCode}
 ${classGenerator(`Create${model}Dto`, body)}`;
@@ -132,7 +140,7 @@ function makeVo(propList: any[]) {
    * ${description}
    */\n`;
     }
-    body += `  ${pk}: ${propType};\n`;
+    body += `  ${pk}: ${getType(propType)};\n`;
   });
   return `import { BaseVo } from '@happykit/common/base/base.vo';
 ${classGenerator(`${model}Vo`, body, 'BaseVo')}`;

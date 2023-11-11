@@ -1,6 +1,6 @@
 import { IsOptional } from 'class-validator';
 
-export class CreateRoleDto {
+export class CreateSysRoleDto {
   /**
    * 角色名称
    */

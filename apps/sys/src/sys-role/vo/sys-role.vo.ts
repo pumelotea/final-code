@@ -1,6 +1,6 @@
 import { BaseVo } from '@happykit/common/base/base.vo';
 
-export class RoleVo extends BaseVo {
+export class SysRoleVo extends BaseVo {
   id: string;
   /**
    * 角色名称

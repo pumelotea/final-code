@@ -14,7 +14,8 @@ import { AuthGuard } from '@happykit/common/auth/auth.guard';
 import { LoggerInterceptor } from '@happykit/common/interceptor/logger.interceptor';
 import { CaptchaInterceptor } from '@happykit/common/interceptor/captcha.interceptor';
 import { UserModule } from './user/user.module';
-import { RoleModule } from './role/role.module';
+import { SysRoleModule } from './sys-role/sys-role.module';
+import { SysMenuModule } from './sys-menu/sys-menu.module';
 import { ResultInterceptor } from '@happykit/common/interceptor/result.interceptor';
 import { SysConfigModule } from './sys-config/sys-config.module';
 import { RequestContextMiddleware } from '@happykit/common/context/request-context';
@@ -28,8 +29,9 @@ import { RequestContextMiddleware } from '@happykit/common/context/request-conte
     redisModule,
     UserModule,
     CaptchaModule,
-    RoleModule,
+    SysRoleModule,
     SysConfigModule,
+    SysMenuModule,
   ],
   controllers: [SysController],
   providers: [

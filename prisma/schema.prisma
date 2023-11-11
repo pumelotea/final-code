@@ -11,7 +11,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// 系统配置
+/// 系统配置
 model SysConfig {
   /// 主键ID
   id        String    @id @default(cuid())
@@ -57,12 +57,27 @@ model User {
   deletedBy String?   @db.VarChar(255)
 }
 
-model Role {
+model SysRole {
   id        String    @id @default(cuid())
   ///角色名称
   roleName  String?   @db.VarChar(255)
   ///角色描述
   roleDesc  String?   @db.VarChar(255)
+  createdAt DateTime  @default(now()) @db.DateTime(3)
+  createdBy String?   @db.VarChar(255)
+  updatedAt DateTime? @updatedAt @db.DateTime(3)
+  updatedBy String?   @db.VarChar(255)
+  deleted   DateTime? @db.DateTime(3)
+  deletedBy String?   @db.VarChar(255)
+}
+
+model SysRoleUser {
+  id       String @id @default(cuid())
+  roleId   String @db.VarChar(255)
+  userId   String @db.VarChar(255)
+  ///授权类型，可见01，可授权02
+  authType String @db.VarChar(255)
+
   createdAt DateTime  @default(now()) @db.DateTime(3)
   createdBy String?   @db.VarChar(255)
   updatedAt DateTime? @updatedAt @db.DateTime(3)
@@ -83,6 +98,63 @@ model BizLog {
   during       String? @db.VarChar(255)
   startTime    BigInt  @db.BigInt()
   errorMessage String? @default("") @db.VarChar(1000)
+
+  createdAt DateTime  @default(now()) @db.DateTime(3)
+  createdBy String?   @db.VarChar(255)
+  updatedAt DateTime? @updatedAt @db.DateTime(3)
+  updatedBy String?   @db.VarChar(255)
+  deleted   DateTime? @db.DateTime(3)
+  deletedBy String?   @db.VarChar(255)
+}
+
+model SysMenu {
+  id                  String  @id @default(cuid())
+  parentId            String  @db.VarChar(255)
+  ///名称
+  name                String  @db.VarChar(255)
+  ///类型，菜单还是按钮
+  type                String? @db.VarChar(255)
+  ///图标名称
+  icon                String? @db.VarChar(255)
+  ///请求路径
+  path                String? @db.VarChar(255)
+  ///视图容器
+  view                String? @db.VarChar(255)
+  ///是否缓存
+  isKeepalive         String? @default("0") @db.VarChar(255)
+  ///是否路由
+  isRouter            String? @default("0") @db.VarChar(255)
+  ///是否隐藏路由
+  isHide              String? @default("0") @db.VarChar(255)
+  ///是否外链
+  isExternalLink      String? @default("0") @db.VarChar(255)
+  ///是否首页
+  isHome              String? @db.VarChar(255)
+  ///外链地址
+  externalLinkAddress String? @db.VarChar(255)
+  ///按钮标识
+  permissionKey       String? @db.VarChar(255)
+  ///浏览器标签 _self _blank
+  linkTarget          String? @db.VarChar(255)
+  ///0=禁用 1=启用
+  isEnable            Boolean @default(true) @db.TinyInt
+  ///排序
+  orderNo             Int?    @default(0) @db.Int()
+
+  createdAt DateTime  @default(now()) @db.DateTime(3)
+  createdBy String?   @db.VarChar(255)
+  updatedAt DateTime? @updatedAt @db.DateTime(3)
+  updatedBy String?   @db.VarChar(255)
+  deleted   DateTime? @db.DateTime(3)
+  deletedBy String?   @db.VarChar(255)
+}
+
+model SysRoleMenu {
+  id       String  @id @default(cuid())
+  roleId   String  @db.VarChar(255)
+  menuId   String  @db.VarChar(255)
+  ///授权类型，可见01，可授权02
+  authType String? @db.VarChar(255)
 
   createdAt DateTime  @default(now()) @db.DateTime(3)
   createdBy String?   @db.VarChar(255)
