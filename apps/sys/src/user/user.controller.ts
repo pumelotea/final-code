@@ -20,6 +20,7 @@ import { Public } from '@happykit/common/decorator/public.decorator';
 import { LoginVo } from './vo/login.vo';
 import { LoginDto } from './dto/login.dto';
 import { Captcha } from '@happykit/common/decorator/captcha.decorator';
+import { DateUtcPipe } from '@happykit/common/pipe/dto-date.pipe';
 
 @Controller('user')
 @ApiTags('用户')

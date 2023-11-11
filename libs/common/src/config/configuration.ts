@@ -12,9 +12,10 @@ import { NestFactory } from '@nestjs/core';
 import { WinstonModule } from 'nest-winston';
 import { createLogger } from 'winston';
 import { HttpExceptionFilter, ServiceException } from '@happykit/common/error';
-import { HttpServer, Logger, ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@codecoderun/swagger';
 import { PrismaMiddleware } from '@happykit/common/prisma/prisma.middleware';
+import { DtoPropertyTransformPipe } from '@happykit/common/pipe/dto-date.pipe';
 
 /**
  * JWT 模块
@@ -181,6 +182,7 @@ export function createBootstrap(serviceName: string, module: any) {
           return new ServiceException(`${constraints}`);
         },
       }),
+      new DtoPropertyTransformPipe()
     );
 
     const configService = application.get(ConfigService);
