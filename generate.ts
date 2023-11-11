@@ -5,6 +5,7 @@ import * as JSONSchema from './prisma/json-schema/json-schema.json';
 import * as fs from 'fs';
 import * as path from 'path';
 import cac from 'cac';
+import { exec } from 'child_process';
 
 // input
 let projectName = '';
@@ -52,7 +53,7 @@ function getProps() {
 
 function classGenerator(name: string, body: string, ext: string = '') {
   return `
-export class ${name} ${ext ? 'extends ' + ext : ''}{
+export class ${name} ${ext ? 'extends ' + ext + ' ' : ''}{
 ${body}
 }`;
 }
@@ -62,8 +63,14 @@ export function importGenerator(NAMES: string, MODULE: string) {
 }
 
 function makeCreateDto(propList: any[]) {
-  const hasIsOptional = propList.filter((e) => e.isOptional).length > 0;
-  const hasIsNotEmpty = propList.filter((e) => !e.isOptional).length > 0;
+  //DTO 不需要id
+  propList = propList.filter((e) => e.pk !== 'id');
+  const hasIsOptional =
+    propList.filter((e) => e.isOptional && !BASE_FILED_LIST.includes(e.pk))
+      .length > 0;
+  const hasIsNotEmpty =
+    propList.filter((e) => !e.isOptional && !BASE_FILED_LIST.includes(e.pk))
+      .length > 0;
   const names = [];
   if (hasIsOptional) {
     names.push('IsOptional');
@@ -75,20 +82,20 @@ function makeCreateDto(propList: any[]) {
 
   let body = '';
   propList.forEach(({ pk, propType, description, isOptional }) => {
-    if (BASE_FILED_LIST.includes(pk)) {
+    if (BASE_FILED_LIST.includes(pk) || pk === 'id') {
       return;
     }
     if (description) {
-      body += `\n\t/**
-\t* ${description}
-\t*/`;
+      body += `  /**
+   * ${description}
+   */\n`;
     }
     if (isOptional) {
-      body += `\n\t@IsOptional()`;
+      body += `  @IsOptional()\n`;
     } else {
-      body += `\n\t@IsNotEmpty({ message: '${description ?? ''}不能为空' })`;
+      body += `  @IsNotEmpty({ message: '${description ?? ''}不能为空' })\n`;
     }
-    body += `\n\t${pk}${isOptional ? '?' : ''}: ${propType};\n`;
+    body += `  ${pk}${isOptional ? '?' : ''}: ${propType};\n`;
   });
   return `${importCode}
 ${classGenerator(`Create${model}Dto`, body)}`;
@@ -110,7 +117,8 @@ function makeUpdateDto() {
   return `import { PartialType } from '@codecoderun/swagger';
 import { Create${model}Dto } from './create-${toSnake(model)}.dto';
 
-export class Update${model}Dto extends PartialType(Create${model}Dto) {}`;
+export class Update${model}Dto extends PartialType(Create${model}Dto) {}
+`;
 }
 
 function makeVo(propList: any[]) {
@@ -120,11 +128,11 @@ function makeVo(propList: any[]) {
       return;
     }
     if (description) {
-      body += `\n\t/**
-\t* ${description}
-\t*/`;
+      body += `  /**
+   * ${description}
+   */\n`;
     }
-    body += `\n\t${pk}: ${propType};\n`;
+    body += `  ${pk}: ${propType};\n`;
   });
   return `import { BaseVo } from '@happykit/common/base/base.vo';
 ${classGenerator(`${model}Vo`, body, 'BaseVo')}`;
@@ -139,7 +147,8 @@ import { ${model}Controller } from './${toSnake(model)}.controller';
   controllers: [${model}Controller],
   providers: [${model}Service],
 })
-export class ${model}Module {}`;
+export class ${model}Module {}
+`;
 }
 
 function makeService() {
@@ -337,6 +346,15 @@ function generate(pName: string, m: string, cName: string) {
   );
 }
 
+function format() {
+  const cmd = `prettier --write apps/${projectName}/src/${toSnake(
+    model,
+  )}/*.ts apps/${projectName}/src/${toSnake(model)}/**/*.ts`;
+  exec(cmd, () => {
+    console.log('自动格式化完成');
+  });
+}
+
 const cli = cac('codecoderun');
 
 /**
@@ -367,6 +385,7 @@ cli
     generate(project, model, controllerName);
     console.log(`CRUD生成结束: 工程:${project} 模型:${model}`);
     console.log('请前往工程对应的主模块中引入生成的模块');
+    format();
   })
   .cli.command('model', '列出所有的模型')
   .action(() => {

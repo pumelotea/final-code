@@ -59,7 +59,9 @@ model User {
 
 model Role {
   id        String    @id @default(cuid())
+  ///角色名称
   roleName  String?   @db.VarChar(255)
+  ///角色描述
   roleDesc  String?   @db.VarChar(255)
   createdAt DateTime  @default(now()) @db.DateTime(3)
   createdBy String?   @db.VarChar(255)

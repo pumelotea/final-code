@@ -71,10 +71,7 @@ export class RoleController {
   @Patch(':id')
   @AutoVo({ type: RoleVo })
   @BizLog({ name: '角色', desc: '更新角色' })
-  async update(
-    @Param('id') id: string,
-    @Body() updateRoleDto: UpdateRoleDto,
-  ) {
+  async update(@Param('id') id: string, @Body() updateRoleDto: UpdateRoleDto) {
     return await this.roleService.updateOne({ id }, updateRoleDto);
   }
 

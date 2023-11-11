@@ -1,12 +1,14 @@
-import { IsOptional, IsNotEmpty } from 'class-validator';
+import { IsOptional } from 'class-validator';
 
 export class CreateRoleDto {
-  @IsNotEmpty({ message: '不能为空' })
-  id: string;
-
+  /**
+   * 角色名称
+   */
   @IsOptional()
   roleName?: string;
-
+  /**
+   * 角色描述
+   */
   @IsOptional()
   roleDesc?: string;
 }
