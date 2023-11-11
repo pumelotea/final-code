@@ -6,7 +6,7 @@ import { ApiTags } from '@codecoderun/swagger';
 @ApiTags('健康')
 export class SysController {
   /**
-   * APP服务健康检查
+   * 服务健康检查
    */
   @Get()
   @Public()
@@ -14,6 +14,9 @@ export class SysController {
     return `Sys Application Run Mode [${process.env.mode}]`;
   }
 
+  /**
+   * 服务内存信息
+   */
   @Get('/health')
   @Public()
   health() {

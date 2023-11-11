@@ -89,6 +89,10 @@ export class UserController {
     return await this.userService.deleteById(id);
   }
 
+  /**
+   * 用户登录
+   * @param loginDto
+   */
   @Post('login')
   @BizLog({ name: '用户', desc: '账号密码登录' })
   @AutoVo({ type: LoginVo })

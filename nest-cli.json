@@ -29,6 +29,7 @@
             "options": {
               "classValidatorShim": true,
               "introspectComments": true,
+              "controllerKeyOfComment": "summary",
               "dtoFileNameSuffix": [
                 ".dto.ts",
                 ".vo.ts"
@@ -54,6 +55,7 @@
             "options": {
               "classValidatorShim": true,
               "introspectComments": true,
+              "controllerKeyOfComment": "summary",
               "dtoFileNameSuffix": [
                 ".dto.ts",
                 ".vo.ts"
