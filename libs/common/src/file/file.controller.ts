@@ -19,7 +19,8 @@ import { Readable as ReadableStream } from 'node:stream';
 import { ConfigService } from '@nestjs/config';
 import { BizLog } from '@happykit/common/decorator/log.decorator';
 import { ApiTags } from '@codecoderun/swagger';
-import { SkipTransform } from '@happykit/common/decorator/vo.decorator';
+import { SkipTransform, Vo } from '@happykit/common/decorator/vo.decorator';
+import { FileVo } from '@happykit/common/file/file.vo';
 
 @ApiTags('通用文件')
 @Controller('file')
@@ -48,6 +49,7 @@ export class FileController {
   @Post('/upload/:bucket')
   @UseInterceptors(FileInterceptor('file'))
   @BizLog({ name: '文件', desc: '文件上传' })
+  @Vo({ type: FileVo })
   async upload(
     @UploadedFile(CommonFileValidator)
     file: Express.Multer.File,
@@ -57,7 +59,9 @@ export class FileController {
     if (!bucketList.includes(bucket)) {
       throw new ServiceException('存储桶不存在');
     }
-    return this.fileService.upload(file, bucket);
+    return {
+      path: this.fileService.upload(file, bucket),
+    };
   }
 
   /**
