@@ -18,9 +18,10 @@ import { CommonFileService } from '@happykit/common/file/file.module-definition'
 import { Readable as ReadableStream } from 'node:stream';
 import { ConfigService } from '@nestjs/config';
 import { BizLog } from '@happykit/common/decorator/log.decorator';
-import { ApiTags } from '@codecoderun/swagger';
+import { ApiBody, ApiConsumes, ApiTags } from '@codecoderun/swagger';
 import { SkipTransform, Vo } from '@happykit/common/decorator/vo.decorator';
 import { FileVo } from '@happykit/common/file/file.vo';
+import { BucketVo } from '@happykit/common/file/bucket.vo';
 
 @ApiTags('通用文件')
 @Controller('file')
@@ -50,6 +51,18 @@ export class FileController {
   @UseInterceptors(FileInterceptor('file'))
   @BizLog({ name: '文件', desc: '文件上传' })
   @Vo({ type: FileVo })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
   async upload(
     @UploadedFile(CommonFileValidator)
     file: Express.Multer.File,
@@ -60,7 +73,7 @@ export class FileController {
       throw new ServiceException('存储桶不存在');
     }
     return {
-      path: this.fileService.upload(file, bucket),
+      path: await this.fileService.upload(file, bucket),
     };
   }
 
@@ -90,5 +103,15 @@ export class FileController {
     return new StreamableFile(
       (await this.fileService.view(bucket, filename)) as ReadableStream,
     );
+  }
+
+  /**
+   * 获取存储桶列表
+   */
+  @Get('/buckets')
+  @BizLog({ name: '文件', desc: '可用存储桶列表' })
+  @Vo({ type: BucketVo })
+  bucketList() {
+    return this.fileService.fileConfig.bucketList;
   }
 }
