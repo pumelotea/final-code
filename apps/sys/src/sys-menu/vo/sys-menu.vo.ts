@@ -10,57 +10,57 @@ export class SysMenuVo extends BaseVo {
   /**
    * 类型，菜单还是按钮
    */
-  type: string;
+  type?: string;
   /**
    * 图标名称
    */
-  icon: string;
+  icon?: string;
   /**
    * 请求路径
    */
-  path: string;
+  path?: string;
   /**
    * 视图容器
    */
-  view: string;
+  view?: string;
   /**
    * 是否缓存
    */
-  isKeepalive: string;
+  isKeepalive?: string;
   /**
    * 是否路由
    */
-  isRouter: string;
+  isRouter?: string;
   /**
    * 是否隐藏路由
    */
-  isHide: string;
+  isHide?: string;
   /**
    * 是否外链
    */
-  isExternalLink: string;
+  isExternalLink?: string;
   /**
    * 是否首页
    */
-  isHome: string;
+  isHome?: string;
   /**
    * 外链地址
    */
-  externalLinkAddress: string;
+  externalLinkAddress?: string;
   /**
    * 按钮标识
    */
-  permissionKey: string;
+  permissionKey?: string;
   /**
    * 浏览器标签 _self _blank
    */
-  linkTarget: string;
+  linkTarget?: string;
   /**
    * 0=禁用 1=启用
    */
-  isEnable: boolean;
+  isEnable?: boolean;
   /**
    * 排序
    */
-  orderNo: number;
+  orderNo?: number;
 }

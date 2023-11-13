@@ -1,21 +1,23 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
   Query,
 } from '@nestjs/common';
 import { SysMenuService } from './sys-menu.service';
 import { CreateSysMenuDto } from './dto/create-sys-menu.dto';
 import { UpdateSysMenuDto } from './dto/update-sys-menu.dto';
 import { ApiTags } from '@codecoderun/swagger';
-import { AutoVo, VoType } from '@happykit/common/decorator/vo.decorator';
+import { AutoVo, Vo, VoType } from '@happykit/common/decorator/vo.decorator';
 import { SysMenuVo } from './vo/sys-menu.vo';
 import { ServiceException } from '@happykit/common/error';
 import { BizLog } from '@happykit/common/decorator/log.decorator';
+import { SysMenuTreeVo } from './vo/sys-menu-tree.vo';
+import { Public } from '@happykit/common/decorator/public.decorator';
 
 @Controller('sys-menu')
 @ApiTags('菜单权限')
@@ -86,5 +88,16 @@ export class SysMenuController {
   @BizLog({ name: '菜单权限', desc: '删除菜单权限' })
   async remove(@Param('id') id: string) {
     return await this.sysMenuService.deleteById(id);
+  }
+
+  /**
+   * 获取完整菜单树
+   */
+  @Get('/tree/defined')
+  @Vo({ type: SysMenuTreeVo, voType: VoType.LIST })
+  @BizLog({ name: '菜单权限', desc: '获取完整菜单树' })
+  @Public()
+  getMenuTree() {
+    return this.sysMenuService.getMenuTree();
   }
 }
