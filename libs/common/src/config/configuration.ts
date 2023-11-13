@@ -163,7 +163,7 @@ export function createBootstrap(serviceName: string, module: any) {
   return async () => {
     const application = await NestFactory.create(module, {
       logger: WinstonModule.createLogger({
-        instance: createLogger({ ...createLoggerOptions('App') }),
+        instance: createLogger({ ...createLoggerOptions(serviceName) }),
       }),
     });
     //全局异常处理
@@ -182,7 +182,7 @@ export function createBootstrap(serviceName: string, module: any) {
           return new ServiceException(`${constraints}`);
         },
       }),
-      new DtoPropertyTransformPipe()
+      new DtoPropertyTransformPipe(),
     );
 
     const configService = application.get(ConfigService);
