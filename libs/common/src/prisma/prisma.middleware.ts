@@ -31,8 +31,26 @@ export const PrismaMiddleware = async (
   updateUser(params, fields, 'create', 'createdBy', userId);
   updateUser(params, fields, 'createMany', 'createdBy', userId);
 
-  return await next(params);
+  try {
+    return await next(params);
+  } catch (e) {
+    errToValue(e, params.action);
+    return null;
+  }
 };
+
+function errToValue(e: Error, action: string) {
+  switch (action) {
+    case 'update' || 'delete':
+      return null;
+    case 'updateMany' || 'deleteMany':
+      return {
+        count: 0,
+      };
+    default:
+      throw e;
+  }
+}
 
 function toSoftDelete(
   params: Prisma.MiddlewareParams,

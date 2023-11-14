@@ -97,7 +97,7 @@ export abstract class BaseService<T> {
     });
   }
 
-  public async deleteById(id: any) {
+  public async deleteById(id: string): Promise<T> {
     return await this.model.delete({ where: { id } });
   }
 }

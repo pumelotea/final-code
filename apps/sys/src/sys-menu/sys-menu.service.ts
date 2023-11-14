@@ -4,6 +4,7 @@ import { SysMenu } from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
 import { SysMenuTreeVo } from './vo/sys-menu-tree.vo';
 import { SysMenuVo } from './vo/sys-menu.vo';
+import { ServiceException } from '@happykit/common/error';
 
 @Injectable()
 export class SysMenuService extends BaseService<SysMenu> {
@@ -52,5 +53,19 @@ export class SysMenuService extends BaseService<SysMenu> {
     });
 
     return treeList;
+  }
+
+  async deleteById(id: string) {
+    const menu = await super.deleteById(id);
+    if (!menu) {
+      throw new ServiceException('菜单未找到');
+    }
+    await this.prisma.sysRoleMenu.deleteMany({
+      where: {
+        deleted: null,
+        menuId: menu.id,
+      },
+    });
+    return menu;
   }
 }

@@ -16,6 +16,7 @@ import { AutoVo, VoType } from '@happykit/common/decorator/vo.decorator';
 import { SysRoleVo } from './vo/sys-role.vo';
 import { ServiceException } from '@happykit/common/error';
 import { BizLog } from '@happykit/common/decorator/log.decorator';
+import { Public } from '@happykit/common/decorator/public.decorator';
 
 @Controller('sys-role')
 @ApiTags('角色')
@@ -84,6 +85,7 @@ export class SysRoleController {
   @Delete(':id')
   @AutoVo({ type: SysRoleVo })
   @BizLog({ name: '角色', desc: '删除角色' })
+  @Public()
   async remove(@Param('id') id: string) {
     return await this.sysRoleService.deleteById(id);
   }
