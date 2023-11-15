@@ -2,9 +2,9 @@ import { Injectable, Logger } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ServiceException } from '@happykit/common/error';
-import { PrismaService } from 'nestjs-prisma';
 import { BaseService } from '@happykit/common/base/base.service';
 import { User } from '@prisma/client';
+import { PrismaService } from '@happykit/common/prisma/prisma.service';
 
 @Injectable()
 export class UserService extends BaseService<User> {

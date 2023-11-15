@@ -86,6 +86,7 @@ export class SysMenuController {
   @Delete(':id')
   @AutoVo({ type: SysMenuVo })
   @BizLog({ name: '菜单权限', desc: '删除菜单权限' })
+  @Public()
   async remove(@Param('id') id: string) {
     return await this.sysMenuService.deleteById(id);
   }

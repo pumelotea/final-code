@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { BaseService } from '@happykit/common/base/base.service';
 import { User } from '@prisma/client';
-import { PrismaService } from 'nestjs-prisma';
+import { PrismaService } from '@happykit/common/prisma/prisma.service';
 import { LoginDto } from '../../../app/src/user/dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';

@@ -1,5 +1,4 @@
 import { JwtModule } from '@nestjs/jwt';
-import { PrismaModule } from 'nestjs-prisma';
 import { ConfigService } from '@nestjs/config';
 import { JWtOption, MySQLOption, RedisOption } from '@happykit/common';
 import { RedisModule } from '@songkeys/nestjs-redis';
@@ -14,8 +13,8 @@ import { createLogger } from 'winston';
 import { HttpExceptionFilter, ServiceException } from '@happykit/common/error';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@codecoderun/swagger';
-import { PrismaMiddleware } from '@happykit/common/prisma/prisma.middleware';
 import { DtoPropertyTransformPipe } from '@happykit/common/pipe/dto-date.pipe';
+import { PrismaModule } from '@happykit/common/prisma/prisma.module';
 
 /**
  * JWT 模块
@@ -35,14 +34,24 @@ export const jwtModule = JwtModule.registerAsync({
 /**
  * prisma模块
  */
-export const prismaModule = PrismaModule.forRootAsync({
+// export const prismaModule = PrismaModule.forRootAsync({
+//   inject: [ConfigService],
+//   isGlobal: true,
+//   useFactory(configService: ConfigService) {
+//     const mySQLOption = configService.get<MySQLOption>('mysql.client')!;
+//     return {
+//       prismaOptions: { datasourceUrl: mySQLOption.datasourceUrl },
+//       middlewares: [PrismaMiddleware],
+//     };
+//   },
+// });
+
+export const prismaModule = PrismaModule.registerAsync({
   inject: [ConfigService],
-  isGlobal: true,
   useFactory(configService: ConfigService) {
     const mySQLOption = configService.get<MySQLOption>('mysql.client')!;
     return {
-      prismaOptions: { datasourceUrl: mySQLOption.datasourceUrl },
-      middlewares: [PrismaMiddleware],
+      databaseUrl: mySQLOption.datasourceUrl,
     };
   },
 });

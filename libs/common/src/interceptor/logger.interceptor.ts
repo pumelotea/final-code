@@ -9,7 +9,7 @@ import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
 import { BIZ_LOG_KEY, BizMeta } from '@happykit/common/decorator/log.decorator';
 import { catchError, tap, throwError } from 'rxjs';
-import { PrismaService } from 'nestjs-prisma';
+import { PrismaService } from '@happykit/common/prisma/prisma.service';
 
 @Injectable()
 export class LoggerInterceptor implements NestInterceptor {

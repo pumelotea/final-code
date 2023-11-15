@@ -89,4 +89,10 @@ export class SysRoleController {
   async remove(@Param('id') id: string) {
     return await this.sysRoleService.deleteById(id);
   }
+
+  @Get('/testeeee/1')
+  @Public()
+  async testRrr() {
+    return await this.sysRoleService.test();
+  }
 }

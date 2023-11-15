@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { BaseService } from '@happykit/common/base/base.service';
 import { SysMenu } from '@prisma/client';
-import { PrismaService } from 'nestjs-prisma';
+import { PrismaService } from '@happykit/common/prisma/prisma.service';
 import { SysMenuTreeVo } from './vo/sys-menu-tree.vo';
 import { SysMenuVo } from './vo/sys-menu.vo';
 import { ServiceException } from '@happykit/common/error';
