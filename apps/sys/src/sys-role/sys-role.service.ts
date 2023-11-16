@@ -26,22 +26,39 @@ export class SysRoleService extends BaseService<SysRole> {
   }
 
   @Transaction()
-  async test() {
-    const data = await this.prisma.sysRole.create({
-      data: {
-        roleName: 'zzzz',
-        roleDesc: 'okokoko',
+  async bindMenu(roleId: string, menuIds: string[]) {
+    const role = await this.findById(roleId);
+    if (!role) {
+      throw new ServiceException('角色不存在');
+    }
+    await this.prisma.sysRoleMenu.deleteMany({
+      where: {
+        roleId,
       },
     });
+    const list = [];
+    for (const menuId of menuIds) {
+      list.push({
+        roleId,
+        menuId,
+      });
+    }
+    await this.prisma.sysRoleMenu.createMany({
+      data: list,
+    });
+    return role;
+  }
 
-    await this.prisma.sysConfig.create({
-      data: {
-        key: 'aaaaa',
-        value: 'asjdlajsldajsd',
+  async findMenuIds(roleId: string) {
+    const list = await this.prisma.sysRoleMenu.findMany({
+      where: {
+        deleted: null,
+        roleId,
       },
     });
-    // throw new ServiceException('Rollback');
-    return data;
+    return {
+      menuIds: list.map((e) => e.menuId),
+    };
   }
 
   protected get model() {

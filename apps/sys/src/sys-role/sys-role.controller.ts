@@ -16,7 +16,8 @@ import { AutoVo, VoType } from '@happykit/common/decorator/vo.decorator';
 import { SysRoleVo } from './vo/sys-role.vo';
 import { ServiceException } from '@happykit/common/error';
 import { BizLog } from '@happykit/common/decorator/log.decorator';
-import { Public } from '@happykit/common/decorator/public.decorator';
+import { BindMenuDto } from './dto/bind-menu.dto';
+import { SysRoleMenuIdsVo } from './vo/sys-role-menu-ids.vo';
 
 @Controller('sys-role')
 @ApiTags('角色')
@@ -85,14 +86,31 @@ export class SysRoleController {
   @Delete(':id')
   @AutoVo({ type: SysRoleVo })
   @BizLog({ name: '角色', desc: '删除角色' })
-  @Public()
   async remove(@Param('id') id: string) {
     return await this.sysRoleService.deleteById(id);
   }
 
-  @Get('/testeeee/1')
-  @Public()
-  async testRrr() {
-    return await this.sysRoleService.test();
+  /**
+   * 绑定菜单
+   * @param id
+   * @param bindMenuDto
+   */
+  @Post('/:id/bind/menu')
+  @AutoVo({ type: SysRoleVo })
+  @BizLog({ name: '角色', desc: '绑定菜单' })
+  async bindMenu(@Param('id') id: string, @Body() bindMenuDto: BindMenuDto) {
+    const menuIds = Array.from(new Set(bindMenuDto.menuIds));
+    return await this.sysRoleService.bindMenu(id, menuIds);
+  }
+
+  /**
+   * 查找角色对应的菜单
+   * @param roleId
+   */
+  @Get('/menu/ids')
+  @AutoVo({ type: SysRoleMenuIdsVo })
+  @BizLog({ name: '角色', desc: '获取菜单' })
+  findMenuIds(@Query('roleId') roleId: string) {
+    return this.sysRoleService.findMenuIds(roleId);
   }
 }

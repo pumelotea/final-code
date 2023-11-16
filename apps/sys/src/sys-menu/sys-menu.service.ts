@@ -68,4 +68,6 @@ export class SysMenuService extends BaseService<SysMenu> {
     });
     return menu;
   }
+
+  sortMenu() {}
 }

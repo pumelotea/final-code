@@ -1,6 +1,6 @@
 import * as dayjs from 'dayjs';
 import * as utc from 'dayjs/plugin/utc';
-dayjs.extend(utc)
+dayjs.extend(utc);
 export const DTO_PROPERTY_TRANSFORMER_META_KEY = Symbol(
   'DTO_PROPERTY_TRANSFORMER_META_KEY',
 );
@@ -41,7 +41,7 @@ export const DtoUtcDate = (format?: string) => {
         return value;
       }
       const r = dayjs(value).utc().format(format);
-      if ('Invalid Date' === r){
+      if ('Invalid Date' === r) {
         return value;
       }
       return r;

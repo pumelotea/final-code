@@ -5,29 +5,29 @@ import {
 } from '@happykit/common/decorator/dto.decorator';
 import * as dayjs from 'dayjs';
 import * as utc from 'dayjs/plugin/utc';
-dayjs.extend(utc)
-export class DateUtcPipe implements PipeTransform{
+dayjs.extend(utc);
+export class DateUtcPipe implements PipeTransform {
   format: string;
-  constructor(format :string = 'YYYY-MM-DD HH:mm:ss') {
-    if (format){
+  constructor(format: string = 'YYYY-MM-DD HH:mm:ss') {
+    if (format) {
       this.format = format;
     }
   }
   transform(value: any, metadata: ArgumentMetadata): any {
-    if (metadata.type !== 'query' && metadata.type !== 'param' ){
+    if (metadata.type !== 'query' && metadata.type !== 'param') {
       return value;
     }
     if (typeof value === 'object') {
-      return value
+      return value;
     }
-    if (typeof value === 'number'){
-      return value
+    if (typeof value === 'number') {
+      return value;
     }
     if (!value) {
       return value;
     }
     const r = dayjs(value).utc().format(this.format);
-    if ('Invalid Date' === r){
+    if ('Invalid Date' === r) {
       return value;
     }
     return r;
@@ -36,11 +36,11 @@ export class DateUtcPipe implements PipeTransform{
 
 export class DtoPropertyTransformPipe implements PipeTransform {
   transform(value: any, metadata: ArgumentMetadata): any {
-    if (metadata.type !== 'body'){
+    if (metadata.type !== 'body') {
       return value;
     }
     if (typeof value !== 'object') {
-      return value
+      return value;
     }
     // 对象的情况
     Object.keys(value).forEach((propertyKey) => {

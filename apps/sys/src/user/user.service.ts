@@ -6,6 +6,10 @@ import { LoginDto } from '../../../app/src/user/dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { ServiceException } from '@happykit/common/error';
+import { Transaction } from '@happykit/common/decorator/transaction.decorator';
+import { SysRoleVo } from '../sys-role/vo/sys-role.vo';
+import { SysMenuTreeVo } from '../sys-menu/vo/sys-menu-tree.vo';
+import { SysMenuVo } from '../sys-menu/vo/sys-menu.vo';
 
 @Injectable()
 export class UserService extends BaseService<User> {
@@ -78,5 +82,102 @@ export class UserService extends BaseService<User> {
     };
   }
 
-  signOut(userId: string) {}
+  signOut(userId: string) {
+    return userId;
+  }
+
+  @Transaction()
+  async bindRoles(userId: string, ids: string[]) {
+    const user = await this.findById(userId);
+    if (!user) {
+      throw new ServiceException('用户不存在');
+    }
+    await this.prisma.sysRoleUser.deleteMany({
+      where: {
+        userId,
+      },
+    });
+    const list = [];
+    for (const roleId of ids) {
+      list.push({
+        userId,
+        roleId,
+        authType: 'sys',
+      });
+    }
+    await this.prisma.sysRoleUser.createMany({
+      data: list,
+    });
+    return user;
+  }
+
+  async findRoles(userId: string) {
+    return this.prisma.$queryRaw<SysRoleVo[]>`select a.* from sysRole as a left 
+    join sysRoleUser as b on a.id = b.roleId where b.userId = ${userId} and a.deleted is null and b.deleted is null`;
+  }
+
+  async findUserMenus(userId: string): Promise<SysMenuTreeVo[]> {
+    const list = await this.prisma.sysRoleUser.findMany({
+      where: {
+        userId,
+        deleted: null,
+      },
+    });
+
+    const roleIds = list.map((e) => e.roleId);
+    const menuIds = await this.prisma.sysRoleMenu.findMany({
+      select: {
+        menuId: true,
+      },
+      where: {
+        deleted: null,
+        roleId: {
+          in: roleIds,
+        },
+      },
+      distinct: 'menuId',
+    });
+
+    const dataList = await this.prisma.sysMenu.findMany({
+      where: {
+        deleted: null,
+        id: {
+          in: menuIds.map((e) => e.menuId),
+        },
+      },
+      orderBy: {
+        orderNo: 'asc',
+      },
+    });
+
+    const rootList = dataList
+      .filter((e) => e.parentId === '0' && e.type === 'menu')
+      .map((e) => Object.assign(new SysMenuTreeVo(), e));
+
+    const forEach = (parentId: string) => {
+      const childList = dataList.filter((e) => e.parentId === parentId);
+      if (childList.length === 0) {
+        return childList;
+      }
+      const treeList: any[] = [];
+      childList.forEach((node) => {
+        const childList = forEach(node.id);
+        treeList.push({
+          node: Object.assign(new SysMenuVo(), node),
+          children: childList,
+        });
+      });
+      return treeList;
+    };
+
+    const treeList: any[] = [];
+    rootList.forEach((rootNode) => {
+      const childList = forEach(rootNode.id);
+      treeList.push({
+        node: Object.assign(new SysMenuVo(), rootNode),
+        children: childList,
+      });
+    });
+    return treeList;
+  }
 }
