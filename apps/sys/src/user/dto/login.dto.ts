@@ -1,5 +1,4 @@
 import { IsNotEmpty } from 'class-validator';
-import { DtoUtcDate } from '@happykit/common/decorator/dto.decorator';
 
 export class LoginDto {
   /**
@@ -13,7 +12,4 @@ export class LoginDto {
    */
   @IsNotEmpty({ message: '密码不能为空' })
   password: string;
-
-  @DtoUtcDate()
-  time: Date;
 }

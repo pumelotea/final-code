@@ -23,6 +23,7 @@ import { AuthUserInfo } from '@happykit/common';
 import { BindRoleDto } from './dto/bind-role.dto';
 import { SysRoleVo } from '../sys-role/vo/sys-role.vo';
 import { SysMenuTreeVo } from '../sys-menu/vo/sys-menu-tree.vo';
+import { Public } from '@happykit/common/decorator/public.decorator';
 
 @Controller('user')
 @ApiTags('用户')
@@ -115,6 +116,7 @@ export class UserController {
   @BizLog({ name: '用户', desc: '账号密码登录' })
   @AutoVo({ type: LoginVo })
   // @Captcha()
+  @Public()
   signIn(@Body() loginDto: LoginDto) {
     return this.userService.signIn(loginDto);
   }
