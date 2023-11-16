@@ -4,6 +4,9 @@ type FlatTransactionClient = Prisma.TransactionClient & {
   $rollback: (err?: Error) => Promise<void>;
 };
 
+/**
+ * 废弃
+ */
 export const PrismaTxExtend = {
   client: {
     async $begin() {

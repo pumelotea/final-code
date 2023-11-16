@@ -14,39 +14,28 @@ export const Transaction = () => {
         }
       });
       if (service.length === 0) {
-        return;
+        return await originalMethod.apply(this, args);
       }
 
       const prisma = service[0];
-
-      // console.log(target.prisma)
-      const tx = await prisma.startTransaction();
-      // console.log(this.aaa instanceof PrismaClient)
-      const keys: string[] = [];
-      Object.keys(this).forEach((k) => {
-        const o = this[k] instanceof PrismaClient;
-        if (o) {
-          keys.push(k);
-        }
-      });
-
-      const pV = new Proxy(this, {
-        get(target, prop) {
-          if (keys.includes(prop as string)) {
-            return tx;
+      return prisma.$transaction(async (tx) => {
+        const keys: string[] = [];
+        Object.keys(this).forEach((k) => {
+          const o = this[k] instanceof PrismaClient;
+          if (o) {
+            keys.push(k);
           }
-          return target[prop as keyof typeof target];
-        },
+        });
+        const pV = new Proxy(this, {
+          get(target, prop) {
+            if (keys.includes(prop as string)) {
+              return tx;
+            }
+            return target[prop as keyof typeof target];
+          },
+        });
+        return await originalMethod.apply(pV, args);
       });
-
-      try {
-        const r = await originalMethod.apply(pV, args);
-        await tx.$commit();
-        return r;
-      } catch (e) {
-        await tx.$rollback(e);
-        // throw e;
-      }
     }
     descriptor.value = proxy;
   };
