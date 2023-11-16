@@ -160,10 +160,11 @@ export class UserController {
    * 查询当前登录用户菜单树
    * @param user
    */
-  @Get('/authed/menus')
+  @Get('/current/authed/menus')
   @Vo({ type: SysMenuTreeVo, voType: VoType.LIST })
   @BizLog({ name: '用户', desc: '查找当前登录用户菜单树' })
   findCurrentUserMenus(@User() user: AuthUserInfo) {
+    console.log(user);
     return this.userService.findUserMenus(user.id);
   }
 }
