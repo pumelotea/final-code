@@ -1,5 +1,7 @@
 import { applyDecorators, SetMetadata } from '@nestjs/common';
 import * as dayjs from 'dayjs';
+import * as utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 
 export const VO_META_KEY = Symbol('VO_META_KEY');
 export const VO_KEY = Symbol('VO_KEY');
@@ -69,7 +71,7 @@ export const VoDate = (format?: string) => {
       if (!value) {
         return value;
       }
-      return dayjs(value).format(format);
+      return dayjs(value).utc().format(format);
     },
   });
 };
