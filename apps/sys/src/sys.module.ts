@@ -19,7 +19,8 @@ import { SysMenuModule } from './sys-menu/sys-menu.module';
 import { ResultInterceptor } from '@happykit/common/interceptor/result.interceptor';
 import { SysConfigModule } from './sys-config/sys-config.module';
 import { RequestContextMiddleware } from '@happykit/common/context/request-context';
-import { SysMenuService } from './sys-menu/sys-menu.service';
+import { SysDictModule } from './sys-dict/sys-dict.module';
+import { SysDictItemModule } from './sys-dict-item/sys-dict-item.module';
 
 @Module({
   imports: [
@@ -33,6 +34,8 @@ import { SysMenuService } from './sys-menu/sys-menu.service';
     SysRoleModule,
     SysConfigModule,
     SysMenuModule,
+    SysDictModule,
+    SysDictItemModule,
   ],
   controllers: [SysController],
   providers: [

@@ -162,3 +162,36 @@ model SysRoleMenu {
   deleted   DateTime? @db.DateTime(3)
   deletedBy String?   @db.VarChar(255)
 }
+
+model SysDict {
+  id        String    @id @default(cuid())
+  ///字典名称
+  dictName  String    @db.VarChar(255)
+  ///字典编码
+  dictCode  String    @db.VarChar(255)
+  ///字典描述
+  dictDesc  String?   @db.VarChar(255)
+  createdAt DateTime  @default(now()) @db.DateTime(3)
+  createdBy String?   @db.VarChar(255)
+  updatedAt DateTime? @updatedAt @db.DateTime(3)
+  updatedBy String?   @db.VarChar(255)
+  deleted   DateTime? @db.DateTime(3)
+  deletedBy String?   @db.VarChar(255)
+}
+
+model SysDictItem {
+  id            String @id @default(cuid())
+  dictId        String @db.VarChar(255)
+  ///字典项名称
+  dictItemName  String @db.VarChar(255)
+  ///字典项值
+  dictItemValue String @db.VarChar(255)
+  orderNo       Int?   @default(0) @db.Int()
+
+  createdAt DateTime  @default(now()) @db.DateTime(3)
+  createdBy String?   @db.VarChar(255)
+  updatedAt DateTime? @updatedAt @db.DateTime(3)
+  updatedBy String?   @db.VarChar(255)
+  deleted   DateTime? @db.DateTime(3)
+  deletedBy String?   @db.VarChar(255)
+}
