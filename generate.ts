@@ -163,7 +163,7 @@ function makeService() {
   return `import { Injectable } from '@nestjs/common';
 import { BaseService } from '@happykit/common/base/base.service';
 import { ${model} } from '@prisma/client';
-import { PrismaService } from 'nestjs-prisma';
+import { PrismaService } from '@happykit/common/prisma/prisma.service';
 
 @Injectable()
 export class ${model}Service extends BaseService<${model}> {
