@@ -16,13 +16,7 @@ export class SysMenuService extends BaseService<SysMenu> {
     return this.prisma.sysMenu;
   }
 
-  async getMenuTree(): Promise<SysMenuTreeVo[]> {
-    const dataList = await this.model.findMany({
-      where: { deleted: null },
-      orderBy: {
-        orderNo: 'asc',
-      },
-    });
+  async buildTree(dataList: SysMenu[]) {
     const rootList = dataList
       .filter((e) => e.parentId === '0' && e.type === 'menu')
       .map((e) => Object.assign(new SysMenuTreeVo(), e));
@@ -53,6 +47,16 @@ export class SysMenuService extends BaseService<SysMenu> {
     });
 
     return treeList;
+  }
+
+  async getMenuTree(): Promise<SysMenuTreeVo[]> {
+    const dataList = await this.model.findMany({
+      where: { deleted: null },
+      orderBy: {
+        orderNo: 'asc',
+      },
+    });
+    return this.buildTree(dataList);
   }
 
   async deleteById(id: string) {

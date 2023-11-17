@@ -19,6 +19,7 @@ import { SysMenuModule } from './sys-menu/sys-menu.module';
 import { ResultInterceptor } from '@happykit/common/interceptor/result.interceptor';
 import { SysConfigModule } from './sys-config/sys-config.module';
 import { RequestContextMiddleware } from '@happykit/common/context/request-context';
+import { SysMenuService } from './sys-menu/sys-menu.service';
 
 @Module({
   imports: [
