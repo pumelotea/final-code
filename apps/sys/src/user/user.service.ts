@@ -9,7 +9,6 @@ import { ServiceException } from '@happykit/common/error';
 import { Transaction } from '@happykit/common/decorator/transaction.decorator';
 import { SysRoleVo } from '../sys-role/vo/sys-role.vo';
 import { SysMenuTreeVo } from '../sys-menu/vo/sys-menu-tree.vo';
-import { SysMenuVo } from '../sys-menu/vo/sys-menu.vo';
 import { SysMenuService } from '../sys-menu/sys-menu.service';
 
 @Injectable()
