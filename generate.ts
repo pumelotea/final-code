@@ -33,7 +33,7 @@ function isArray(value: any): boolean {
 function getProps() {
   const propList = [];
   for (const modelPropertiesKey in modelProperties) {
-    const { type, description } = modelProperties[modelPropertiesKey];
+    const { type, description, format } = modelProperties[modelPropertiesKey];
     let isOptional = false;
     let propType = '';
     if (isArray(type) && type.length >= 2 && type[1] === 'null') {
@@ -41,6 +41,9 @@ function getProps() {
       propType = `${type[0]}`;
     } else {
       propType = type;
+    }
+    if (format === 'date-time') {
+      propType = 'Date';
     }
     propList.push({
       pk: modelPropertiesKey,
@@ -173,8 +176,8 @@ export class ${model}Service extends BaseService<${model}> {
 
   protected get model() {
     return this.prisma.${
-      model.substring(0, 1).toLowerCase() + model.substring(1)
-    };
+    model.substring(0, 1).toLowerCase() + model.substring(1)
+  };
   }
 }
 `;
